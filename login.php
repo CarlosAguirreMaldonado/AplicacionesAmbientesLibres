@@ -9,17 +9,17 @@
     $nameType = ' ';
     $apellidoType = ' ';
     if ($_POST["userType"] == 'admin') {
-      $sql = 'SELECT * FROM administrador WHERE usuarioAdmin = :usuario';
+      $sql = 'CALL selectUsuarioAdministrador(:usuario)';
       $pwType = 'pwAdmin';
       $idType = 'idAdministrador';
     } elseif ($_POST["userType"] == 'prof') {
-      $sql = 'SELECT * FROM profesor WHERE usuarioProf = :usuario';
+      $sql = 'CALL selectUsuarioProfesor(:usuario)';
       $pwType = 'pwProf';
       $idType = 'idProfesor';
       $nameType = 'nombresProf';
       $apellidoType = 'apellidosProf';
     } else {
-      $sql = 'SELECT * FROM estudiante WHERE usuarioEst = :usuario';
+      $sql = 'CALL selectUsuarioEstudiante(:usuario)';
       $pwType = 'pwEst';
       $idType = 'idEstudiante';
       $nameType = 'nombresEst';
