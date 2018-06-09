@@ -1,4 +1,4 @@
-# Sistema de Gestion de Objetos de Aprendizaje
+﻿# Sistema de Gestion de Objetos de Aprendizaje
 
 El Sistema OA es una herramienta diseñada para crear y gestionar objetos de aprendizaje de manera interactiva. Y se puede acceder desde el siguiente enlace:
 
@@ -17,7 +17,7 @@ El Sistema OA es una herramienta diseñada para crear y gestionar objetos de apr
 El sistema se instala clonando el repositorio de GitHub en su computador. Se puede ejecutar el siguiente comando en el terminal.
 
 ```
-git clone https://github.com/franizus/SistemaGestionOA.git
+git clone https://github.com/CarlosAguirreMaldonado/AplicacionesAmbientesLibres.git
 ```
 
 O descargar el zip que proporciona GitHub y descomprimirlo en su computador.
