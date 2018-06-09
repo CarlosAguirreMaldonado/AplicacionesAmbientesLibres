@@ -17,7 +17,7 @@ El Sistema OA es una herramienta diseñada para crear y gestionar objetos de apr
 El sistema se instala clonando el repositorio de GitHub en su computador. Se puede ejecutar el siguiente comando en el terminal.
 
 ```
-git clone https://github.com/CarlosAguirreMaldonado/AplicacionesAmbientesLibres.git
+git clone https://github.com/CarlosAguirreMaldonado/repositorioOA_AAL2018A.git
 ```
 
 O descargar el zip que proporciona GitHub y descomprimirlo en su computador.
@@ -50,4 +50,4 @@ Para conectar el sistema con la base de datos que acaba de modificar el archivo 
 
 ## Uso del Sistema
 
-Para el correcto uso del sistema se proporciona un [manual de usuario](https://github.com/franizus/SistemaGestionOA/blob/master/Manual-Usuario.pdf).
+Para el correcto uso del sistema se proporciona un [manual de usuario](https://github.com/CarlosAguirreMaldonado/repositorioOA_AAL2018A/blob/master/Manual-Usuario.pdf).
