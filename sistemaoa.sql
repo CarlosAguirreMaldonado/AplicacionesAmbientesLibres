@@ -4,7 +4,7 @@
 -- ------------------------------------------------------
 -- Server version	10.1.31-MariaDB
 
-create database sistemaoa;
+create database if not exists sistemaoa;
 
 use sistemaoa;
 
