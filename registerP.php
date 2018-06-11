@@ -2,25 +2,65 @@
   require_once "pdo.php";
   require_once "mail.php";
   require_once "cedula.php";
-  session_start();
+  //session_start();
   if ( isset($_POST["cedula"]) && isset($_POST["nombre"]) && isset($_POST["apellido"])
     && isset($_POST["correo"]) && isset($_POST["departamento"]) ) {
     if (validarCedula($_POST["cedula"])) 
     {
-      $sql = "CALL insertarProfesor(:cedulaProf, :nombresProf, :apellidosProf, :correoProf, :idDepartamento)";
-      $stmt = $pdo->prepare($sql);
-      $stmt->execute(array(
-      ':cedulaProf' => $_POST["cedula"],
-      ':nombresProf' => $_POST["nombre"],
-      ':apellidosProf' => $_POST["apellido"],
-      ':correoProf' => $_POST["correo"],
-      ':idDepartamento' => $_POST["departamento"]));
-      $_SESSION["reg"] = "Formulario enviado correctamente! El administrador le enviara su usuario y contraseña a su correo.";
-      $nameto = $_POST["nombre"] . ' ' . $_POST["apellido"];
-      sendMailA($_POST["correo"], $nameto);
-      header( 'Location: index.php' ) ;
-      return;
-    }
+		$correoProfInst = $_POST["correo"];
+		$sql = "CALL spVerificarProfesor('$correoProfInst')";
+		
+		
+		
+		  
+		$row = $pdo->query($sql)->fetchAll();
+        
+		
+		if($row[0][0]>0){
+			
+			$nameto = $_POST["nombre"] . ' ' . $_POST["apellido"];
+			$correoP = $_POST["correo"];
+			$user = explode("@",$correoP)[0];
+			$randomNumber = md5(rand()."");
+			$randomPW = substr($randomNumber,0,5);
+			$pwd_hash = password_hash($randomPW, PASSWORD_DEFAULT);
+			$sql = "CALL insertarProfesorDirecto(:cedulaProf, :nombresProf, :apellidosProf, :correoProf, :idDepartamento, :userP, :pwP)";
+			  $stmt = $pdo->prepare($sql);
+			  $stmt->execute(array(
+			  ':cedulaProf' => $_POST["cedula"],
+			  ':nombresProf' => $_POST["nombre"],
+			  ':apellidosProf' => $_POST["apellido"],
+			  ':correoProf' => $_POST["correo"],
+			  ':idDepartamento' => $_POST["departamento"],
+			  ':userP' => $user,
+			  ':pwP' => $pwd_hash
+			  ));
+			
+			$_SESSION["reg"] = "Registro exitoso, su usuario y contraseña (temporal) serán enviadas a su correo";
+			sendMailP($correoP, $nameto,$user,$randomPW);
+			header( 'Location: index.php' ) ;
+			return;
+		}else{
+			 $sql = "CALL insertarProfesor(:cedulaProf, :nombresProf, :apellidosProf, :correoProf, :idDepartamento)";
+		  $stmt = $pdo->prepare($sql);
+		  $stmt->execute(array(
+		  ':cedulaProf' => $_POST["cedula"],
+		  ':nombresProf' => $_POST["nombre"],
+		  ':apellidosProf' => $_POST["apellido"],
+		  ':correoProf' => $_POST["correo"],
+		  ':idDepartamento' => $_POST["departamento"]));
+		  $_SESSION["reg"] = "Profesor no encontrado en la nomina, su solicitud ha sido enviada al administrador";
+		  $nameto = $_POST["nombre"] . ' ' . $_POST["apellido"];
+		  sendMailA($_POST["correo"], $nameto);
+		  header( 'Location: index.php' ) ;
+		  return;
+		}
+		
+		
+		
+	}	
+     
+    
   }
 ?>
 

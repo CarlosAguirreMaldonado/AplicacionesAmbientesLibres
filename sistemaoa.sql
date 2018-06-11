@@ -641,6 +641,23 @@ END$$
 
 DELIMITER ;
 
+DELIMITER $$
+CREATE PROCEDURE `insertarProfesorDirecto` (
+	IN cedulaP varchar(10),
+    IN nombresP varchar(50),
+    IN apellidosP varchar(50),
+    IN correoP varchar(50),
+    IN idDep int(11),
+    IN usuarioP varchar(20),
+    IN pwP varchar(255))
+BEGIN
+
+	INSERT INTO profesor (cedulaProf, nombresProf, apellidosProf, correoProf, idDepartamento, usuarioProf, pwProf) VALUES (cedulaP, nombresP, apellidosP, correoP, idDep,usuarioP, pwP);
+
+END$$
+
+DELIMITER ;
+
 -- Select usuario Profesor
 
 DROP procedure IF EXISTS `selectUsuarioProfesor`;
