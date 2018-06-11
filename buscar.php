@@ -193,6 +193,7 @@
             if ($stmt->rowCount() > 0)
             {
               $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+              $stmt->closeCursor();
               $ruta = $resultado['rutaoa'];
               echo '<td>';
               echo '<a href="' . $ruta . '" target="_blank">' . $row['nombre'] . '</a>';
@@ -315,6 +316,7 @@
               echo $comment['detalleComent'];
               echo '</li>';
             }
+            $stmt->closeCursor();
             echo '</ul>';
             echo '</div>';
 

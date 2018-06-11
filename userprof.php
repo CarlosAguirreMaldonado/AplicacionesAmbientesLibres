@@ -22,6 +22,7 @@
         $stmt->execute(array(':idProfesor' => $_SESSION["userID"]));
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $passwd = $result['pwProf'];
+       	$result->closeCursor();
         if (password_verify($_POST["pw"], $passwd))
         {
             if ($_POST["pwNew"] == $_POST["pwConf"]) 
@@ -65,6 +66,7 @@
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(':idAdministrador' => $_SESSION["userID"]));
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
         $passwd = $result['pwAdmin'];
         if (password_verify($_POST["pw"], $passwd))
         {
@@ -110,6 +112,7 @@
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(':idEstudiante' => $_SESSION["userID"]));
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
         $passwd = $result['pwEst'];
         if (password_verify($_POST["pw"], $passwd))
         {
@@ -188,6 +191,7 @@
                                 $stmt = $pdo->prepare($sql);
                                 $stmt->execute(array(':id' => $_SESSION["userID"]));
                                 $row1 = $stmt->fetch(PDO::FETCH_ASSOC);
+                                $stmt->closeCursor();
                                 echo '<div class="form-group">';
                                 echo '<label for="nombre">Nombre</label>';
                                 echo '<input class="form-control" id="nombre" name="nombre" type="text" value="' . $row1["nombreAdmin"] . '" required>';
@@ -205,6 +209,7 @@
                                 $stmt = $pdo->prepare($sql);
                                 $stmt->execute(array(':id' => $_SESSION["userID"]));
                                 $row1 = $stmt->fetch(PDO::FETCH_ASSOC);
+                                $stmt->closeCursor();
                                 echo '<div class="form-group">';
                                 echo '<label for="cedula">Cédula</label>';
                                 echo '<input class="form-control" id="cedula" name="cedula" type="text" value="' . $row1["cedulaProf"] . '" disabled>';
@@ -246,6 +251,7 @@
                                         echo('<option value="' . $idDepartamento . '">' . $departamento . '</option>');
                                     }
                                   }
+                                $result->closeCursor();
                                 echo('</optgroup>');
                                 echo '</select>';
                                 echo '</div>';
@@ -302,6 +308,7 @@
                                         echo('<option value="' . $idCarrera . '">' . $carrera . '</option>');
                                     }
                                 }
+                                $result->closeCursor();
                                 echo('</optgroup>');
                                 echo '</select>';
                                 echo '</div>';

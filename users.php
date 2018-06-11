@@ -13,7 +13,6 @@
             ':usuarioProf' => $_POST["usuario"],
             ':pwProf' => $pwd_hash,
             ':idProfesor' => $_POST["idProfAdd"]));
-        $stmt->closeCursor();
         $_SESSION["addProf"] = "Profesor agregado al sistema correctamente.";
         sendMailP($_POST["mailProf"], $_POST["nomProf"], $_POST["usuario"], $_POST["pw"]);
         unset($_POST["usuario"]);
@@ -28,15 +27,14 @@
         $sql = "CALL seleccionarRutaOAsProfesor(:idProfesor)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(':idProfesor' => $_POST["idProfDel"]));
-        $stmt->closeCursor();
         foreach ($stmt as $oa) {
             deleteOA($oa['ruta_zip'], $oa['idOA']);
         }
+        $stmt->closeCursor();
 
         $sql = "CALL eliminarProfesor(:idProfesor)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(':idProfesor' => $_POST["idProfDel"]));
-        $stmt->closeCursor();
         $_SESSION["delProf"] = "Profesor eliminado del sistema correctamente.";
         unset($_POST["idProfDel"]);
         header( 'Location: users.php' ) ;
