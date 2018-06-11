@@ -7,7 +7,7 @@
     if ( isset($_POST["usuario"]) && isset($_POST["pw"]) && isset($_POST["idProfAdd"]) &&
         isset($_POST["nomProf"]) && isset($_POST["mailProf"]) ) {
         $pwd_hash = password_hash($_POST["pw"], PASSWORD_DEFAULT);
-        $sql = "CALL editarProfesorUsuarioPw(usuarioProf, :pwProf, :idProfesor)";
+        $sql = "CALL editarProfesorUsuarioPw(:usuarioProf, :pwProf, :idProfesor)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(
             ':usuarioProf' => $_POST["usuario"],
@@ -30,6 +30,7 @@
         foreach ($stmt as $oa) {
             deleteOA($oa['ruta_zip'], $oa['idOA']);
         }
+        $stmt->closeCursor();
 
         $sql = "CALL eliminarProfesor(:idProfesor)";
         $stmt = $pdo->prepare($sql);
@@ -43,6 +44,7 @@
         $sql = "CALL eliminarEstudiante(:idEstudiante)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(':idEstudiante' => $_POST["idEstDel"]));
+        $stmt->closeCursor();
         $_SESSION["delProf"] = "Estudiante eliminado del sistema correctamente.";
         unset($_POST["idEstDel"]);
         header( 'Location: users.php' ) ;
@@ -173,6 +175,7 @@
                         echo '</div>';
                         $counter++;
                     }
+                    $result->closeCursor();
                     if (!$iterated) {
                         echo '<div class="row bottom5 top5">';
                         echo '<div class="col-10 offset-1">';
@@ -253,6 +256,7 @@
                         echo '</div>';
                         $counter++;
                     }
+                    $result->closeCursor();
                     if (!$iterated) {
                         echo '<div class="row bottom5 top5">';
                         echo '<div class="col-10 offset-1">';
@@ -333,6 +337,7 @@
                         echo '</div>';
                         $counter++;
                     }
+                    $result->closeCursor();
                     if (!$iterated) {
                         echo '<div class="row bottom5 top5">';
                         echo '<div class="col-10 offset-1">';

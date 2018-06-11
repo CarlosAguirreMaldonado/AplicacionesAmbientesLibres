@@ -4,14 +4,7 @@
 
     if ( isset($_POST["nombreOA"]) && isset($_POST["descripcion"]) && isset($_POST["autorOA"]) && isset($_POST["idOA"])
         && isset($_POST["institucionOA"]) && isset($_POST["fechaCreacionOA"]) && isset($_POST["palabraClaveOA"]) ) {
-        $sql = "UPDATE objetoaprendizaje SET 
-                nombre = :nombre,   
-                autor = :autor,
-                descripcion = :descripcion,
-                fecha = :fecha,
-                p_clave = :p_clave,
-                institucion = :institucion
-                WHERE idOA = :idOA";
+        $sql = "CALL editarUnOA(:nombre, :autor, :descripcion, :fecha, :p_clave, :institucion, :idOA)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(
             ':nombre' => $_POST["nombreOA"],
@@ -63,10 +56,11 @@
                     <div class="card-body">
                         <form method="post">
                         <?php
-                            $sql = "SELECT nombre, descripcion, autor, institucion, DATE_FORMAT(fecha,'%Y-%m-%d') as fecha_f, p_clave FROM objetoaprendizaje WHERE idOA = :id";
+                            $sql = "CALL seleccionarUnOA(:id)";
                             $stmt = $pdo->prepare($sql);
                             $stmt->execute(array(':id' => $_GET["id"]));
                             $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                            $stmt->closeCursor();
                             echo '<div class="form-group">';
                             echo '<label for="nombreOA">Nombre del OA</label>';
                             echo '<input  type="text" class="form-control" name="nombreOA" placeholder="Nombre del OA" required value="' . $row["nombre"] . '">';

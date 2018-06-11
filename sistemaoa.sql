@@ -520,6 +520,52 @@ END$$
 
 DELIMITER ;
 
+-- Editar Objeto Aprendizaje
+
+DROP procedure IF EXISTS `editarUnOA`;
+
+DELIMITER $$
+CREATE PROCEDURE `editarUnOA` (
+	IN nombresOA varchar(50),
+    IN autorOA varchar(100),
+    IN descripcionOA varchar(1000),
+    IN fechaOA date,
+    IN p_claveOA varchar(200),
+    IN institucionOA varchar(100),
+    IN idOAN int(11)
+)
+BEGIN
+
+	UPDATE objetoaprendizaje SET 
+                nombre = nombreOA,   
+                autor = autorOA,
+                descripcion = descripcionOA,
+                fecha = fechaOA,
+                p_clave = p_claveOA,
+                institucion = institucionOA
+                WHERE idOA = idOAN;
+    
+END$$
+
+DELIMITER ;
+
+
+-- Select a Objeto Aprendizaje
+
+DROP procedure IF EXISTS `seleccionarUnOA`;
+
+DELIMITER $$
+CREATE PROCEDURE `seleccionarUnOA` (
+	IN idOAN int(11)
+)
+BEGIN
+
+	SELECT nombre, descripcion, autor, institucion, DATE_FORMAT(fecha,'%Y-%m-%d') as fecha_f, p_clave 
+    FROM objetoaprendizaje WHERE idOA = idOAN;    
+END$$
+
+DELIMITER ;
+
 -- Delete objeto aprendizaje
 
 DROP procedure IF EXISTS `eliminarOA`;
@@ -586,10 +632,10 @@ CREATE PROCEDURE `insertarProfesor` (
     IN nombresP varchar(50),
     IN apellidosP varchar(50),
     IN correoP varchar(50),
-    IN idDepartametoP int(11))
+    IN idDep int(11))
 BEGIN
 
-	INSERT INTO profesor (cedulaProf, nombresProf, apellidosProf, correoProf, idDepartamento) VALUES (cedulaP, nombresP, apellidosP, correoP, idDepartamentoP);
+	INSERT INTO profesor (cedulaProf, nombresProf, apellidosProf, correoProf, idDepartamento) VALUES (cedulaP, nombresP, apellidosP, correoP, idDep);
 
 END$$
 
@@ -634,8 +680,8 @@ DROP procedure IF EXISTS `editarProfesor`;
 DELIMITER $$
 CREATE PROCEDURE `editarProfesor` (
 	IN nombresProfN varchar(50),
-    IN apellidoProfN varchar(50),
-    IN correoProf varchar(50),
+    IN apellidosProfN varchar(50),
+    IN correoProfN varchar(50),
     IN idDepartamentoN int(11),
     IN usuarioProfN varchar(15),
     IN idProfesorN int(11)
@@ -670,6 +716,25 @@ BEGIN
                 usuarioProf = usuarioProfN,
                 pwProf = pwProfN
                 WHERE idProfesor = idProfesorN;
+    
+END$$
+
+DELIMITER ;
+
+-- cambiar pw de profesor
+
+DROP procedure IF EXISTS `cambiarProfesorPw`;
+
+DELIMITER $$
+CREATE PROCEDURE `cambiarProfesorPw` (
+	IN pwProfN varchar(255),
+    IN idProfesorN int(11)
+)
+BEGIN
+
+	UPDATE profesor 
+    SET pwProf = pwProfN
+    WHERE idProfesor = idProfesorN;
     
 END$$
 

@@ -98,6 +98,7 @@
                 }
                 echo('<option value="' . $idCarrera . '">' . $carrera . '</option>');
               }
+              $result->closeCursor();
               echo('</optgroup>');
             ?>
             </select>

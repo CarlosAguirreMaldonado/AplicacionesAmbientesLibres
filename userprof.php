@@ -22,14 +22,13 @@
         $stmt->execute(array(':idProfesor' => $_SESSION["userID"]));
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $passwd = $result['pwProf'];
+       	$stmt->closeCursor();
         if (password_verify($_POST["pw"], $passwd))
         {
             if ($_POST["pwNew"] == $_POST["pwConf"]) 
             {
                 $pwd_hash = password_hash($_POST["pwNew"], PASSWORD_DEFAULT);
-                $sql = "UPDATE profesor SET
-                        pwProf = :pwProf
-                        WHERE idProfesor = :idProfesor";
+                $sql = "CALL cambiarProfesorPw(:pwProf, :idProfesor)";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute(array(
                     ':pwProf' => $pwd_hash,
@@ -65,6 +64,7 @@
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(':idAdministrador' => $_SESSION["userID"]));
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
         $passwd = $result['pwAdmin'];
         if (password_verify($_POST["pw"], $passwd))
         {
@@ -110,6 +110,7 @@
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(':idEstudiante' => $_SESSION["userID"]));
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
         $passwd = $result['pwEst'];
         if (password_verify($_POST["pw"], $passwd))
         {
@@ -198,6 +199,7 @@
                                 echo '</div>';
                                 echo '<input type="hidden" name="editAdmin" value="1">';
                                 echo '<input class="btn btn-primary btn-block" type="submit" value="Guardar Cambios">';
+                                $stmt->closeCursor();
                             }
                             else if ($_SESSION["userType"] == "prof") 
                             {
@@ -205,6 +207,7 @@
                                 $stmt = $pdo->prepare($sql);
                                 $stmt->execute(array(':id' => $_SESSION["userID"]));
                                 $row1 = $stmt->fetch(PDO::FETCH_ASSOC);
+                                $stmt->closeCursor();
                                 echo '<div class="form-group">';
                                 echo '<label for="cedula">Cédula</label>';
                                 echo '<input class="form-control" id="cedula" name="cedula" type="text" value="' . $row1["cedulaProf"] . '" disabled>';
@@ -246,6 +249,7 @@
                                         echo('<option value="' . $idDepartamento . '">' . $departamento . '</option>');
                                     }
                                   }
+                                $result->closeCursor();
                                 echo('</optgroup>');
                                 echo '</select>';
                                 echo '</div>';
@@ -302,6 +306,7 @@
                                         echo('<option value="' . $idCarrera . '">' . $carrera . '</option>');
                                     }
                                 }
+                                $result->closeCursor();
                                 echo('</optgroup>');
                                 echo '</select>';
                                 echo '</div>';
