@@ -38,6 +38,11 @@
                     <li>
                         <a href="buscar.php">Buscar Objetos de Aprendizaje</a>
                     </li>
+                    <li2 class="nav-item" data-toggle="tooltip" data-placement="right" title="Crear">
+                        <a class="nav-link">
+                            <span class="nav-link-text">(?) Pantalla de Profesor: En esta pagina se muestra las opciones para profesor</span>
+                        </a>
+                    </li2>
                 </ul>
             </li>
             <?php
@@ -77,6 +82,11 @@
                     <span class="nav-link-text">Por favor ingresar para poder usar el sistema.</span>
                 </a>
             </li>
+            <li2 class="nav-item" data-toggle="tooltip" data-placement="right" title="Crear">
+                <a class="nav-link">
+                    <span class="nav-link-text">(?) Pantalla de Inicio: En esta pagina se muestra la pantalla inicial y el ingreso al sistema</span>
+                </a>
+            </li2>
 
         </ul>
         <?php } ?>
@@ -106,6 +116,11 @@
                     <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
                         <i class="fa fa-fw fa-sign-out"></i>Logout</a>
                 </li>
+                <li2 class="nav-item" data-toggle="tooltip" data-placement="right" title="Crear">
+                    <a class="nav-link">
+                        <span class="nav-link-text">(?) Pantalla de Administrador: En esta pagina se muestran las opciones del administrador</span>
+                    </a>
+                </li2>
             <?php } ?>
         </ul>
 
