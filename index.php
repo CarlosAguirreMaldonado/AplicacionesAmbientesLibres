@@ -40,6 +40,13 @@
       <hr class="my-3">
       <p class="display-5">Elaborado por:</p>
       <ul type = disk >
+      <li>Carlos Aguirre
+      <li>Isaac Pilatuña
+      <li>Steven Cuasqui
+      </ul>
+      
+      <p class="display-6">Créditos a:</p>
+      <ul type = disk >
       <li>Francisco Izurieta
       <li>Dario Herrera
       <li>Alexis Guerrero
