@@ -680,8 +680,8 @@ DROP procedure IF EXISTS `editarProfesor`;
 DELIMITER $$
 CREATE PROCEDURE `editarProfesor` (
 	IN nombresProfN varchar(50),
-    IN apellidoProfN varchar(50),
-    IN correoProf varchar(50),
+    IN apellidosProfN varchar(50),
+    IN correoProfN varchar(50),
     IN idDepartamentoN int(11),
     IN usuarioProfN varchar(15),
     IN idProfesorN int(11)
@@ -716,6 +716,25 @@ BEGIN
                 usuarioProf = usuarioProfN,
                 pwProf = pwProfN
                 WHERE idProfesor = idProfesorN;
+    
+END$$
+
+DELIMITER ;
+
+-- cambiar pw de profesor
+
+DROP procedure IF EXISTS `cambiarProfesorPw`;
+
+DELIMITER $$
+CREATE PROCEDURE `cambiarProfesorPw` (
+	IN pwProfN varchar(255),
+    IN idProfesorN int(11)
+)
+BEGIN
+
+	UPDATE profesor 
+    SET pwProf = pwProfN
+    WHERE idProfesor = idProfesorN;
     
 END$$
 

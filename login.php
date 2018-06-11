@@ -29,6 +29,7 @@
     $stmt->execute(array(':usuario' => $_POST["inputUser"]));
     if ($stmt->rowCount() > 0) {
       $result = $stmt->fetch(PDO::FETCH_ASSOC);
+      $stmt->closeCursor();
       $passwd = $result[$pwType];
       if (password_verify($_POST["inputPW"], $passwd)) {
         $_SESSION["user"] = $_POST["inputUser"];

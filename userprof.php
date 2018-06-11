@@ -22,15 +22,13 @@
         $stmt->execute(array(':idProfesor' => $_SESSION["userID"]));
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $passwd = $result['pwProf'];
-       	$result->closeCursor();
+       	$stmt->closeCursor();
         if (password_verify($_POST["pw"], $passwd))
         {
             if ($_POST["pwNew"] == $_POST["pwConf"]) 
             {
                 $pwd_hash = password_hash($_POST["pwNew"], PASSWORD_DEFAULT);
-                $sql = "UPDATE profesor SET
-                        pwProf = :pwProf
-                        WHERE idProfesor = :idProfesor";
+                $sql = "CALL cambiarProfesorPw(:pwProf, :idProfesor)";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute(array(
                     ':pwProf' => $pwd_hash,
@@ -191,7 +189,6 @@
                                 $stmt = $pdo->prepare($sql);
                                 $stmt->execute(array(':id' => $_SESSION["userID"]));
                                 $row1 = $stmt->fetch(PDO::FETCH_ASSOC);
-                                $stmt->closeCursor();
                                 echo '<div class="form-group">';
                                 echo '<label for="nombre">Nombre</label>';
                                 echo '<input class="form-control" id="nombre" name="nombre" type="text" value="' . $row1["nombreAdmin"] . '" required>';
@@ -202,6 +199,7 @@
                                 echo '</div>';
                                 echo '<input type="hidden" name="editAdmin" value="1">';
                                 echo '<input class="btn btn-primary btn-block" type="submit" value="Guardar Cambios">';
+                                $stmt->closeCursor();
                             }
                             else if ($_SESSION["userType"] == "prof") 
                             {
