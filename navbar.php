@@ -98,7 +98,7 @@
                             echo 'Administrador';
                         } else {
                             echo $_SESSION["userName"];
-                        } 
+                        }
                     ?>
                     </a>
                 </li>
