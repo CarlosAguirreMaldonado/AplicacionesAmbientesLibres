@@ -31,6 +31,7 @@
             ':tipo' => $tipo,
             ':ruta_zip' => $fileName,
             ':idProfesor' => $_SESSION['userID']));
+			$stmt->closeCursor();
     } else {
         echo "move_uploaded_file function failed";
     }

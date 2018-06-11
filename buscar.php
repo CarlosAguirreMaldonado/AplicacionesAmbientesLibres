@@ -178,6 +178,7 @@
         </tr>
         <?php
           $result = $pdo->query("CALL seleccionarComentarioXProfesor()");
+		  
           foreach ($result as $row) {
             $id = $row['idOA'];
             $userID = false;
@@ -186,9 +187,13 @@
             }
 
             echo '<tr>';
+			
             $sql = "CALL seleccionarRutaoa(:idOA, :idUser, :userName)";
+			
             $stmt = $pdo->prepare($sql);
+			$stmt->closeCursor();
             $stmt->execute(array(':idOA' => $id, 'idUser' => $_SESSION["userID"], 'userName' => $_SESSION["userName"]));
+			
             $ruta = '';
             if ($stmt->rowCount() > 0)
             {
