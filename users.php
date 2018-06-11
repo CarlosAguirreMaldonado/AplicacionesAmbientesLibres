@@ -7,12 +7,13 @@
     if ( isset($_POST["usuario"]) && isset($_POST["pw"]) && isset($_POST["idProfAdd"]) &&
         isset($_POST["nomProf"]) && isset($_POST["mailProf"]) ) {
         $pwd_hash = password_hash($_POST["pw"], PASSWORD_DEFAULT);
-        $sql = "CALL editarProfesorUsuarioPw(usuarioProf, :pwProf, :idProfesor)";
+        $sql = "CALL editarProfesorUsuarioPw(:usuarioProf, :pwProf, :idProfesor)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(
             ':usuarioProf' => $_POST["usuario"],
             ':pwProf' => $pwd_hash,
             ':idProfesor' => $_POST["idProfAdd"]));
+        $stmt->closeCursor();
         $_SESSION["addProf"] = "Profesor agregado al sistema correctamente.";
         sendMailP($_POST["mailProf"], $_POST["nomProf"], $_POST["usuario"], $_POST["pw"]);
         unset($_POST["usuario"]);
@@ -27,6 +28,7 @@
         $sql = "CALL seleccionarRutaOAsProfesor(:idProfesor)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(':idProfesor' => $_POST["idProfDel"]));
+        $stmt->closeCursor();
         foreach ($stmt as $oa) {
             deleteOA($oa['ruta_zip'], $oa['idOA']);
         }
@@ -34,6 +36,7 @@
         $sql = "CALL eliminarProfesor(:idProfesor)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(':idProfesor' => $_POST["idProfDel"]));
+        $stmt->closeCursor();
         $_SESSION["delProf"] = "Profesor eliminado del sistema correctamente.";
         unset($_POST["idProfDel"]);
         header( 'Location: users.php' ) ;
@@ -43,6 +46,7 @@
         $sql = "CALL eliminarEstudiante(:idEstudiante)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(':idEstudiante' => $_POST["idEstDel"]));
+        $stmt->closeCursor();
         $_SESSION["delProf"] = "Estudiante eliminado del sistema correctamente.";
         unset($_POST["idEstDel"]);
         header( 'Location: users.php' ) ;
@@ -122,6 +126,7 @@
                         if ($counter > 0) {
                             echo '<hr>';
                         }
+                    $result->closeCursor();
                         echo '<div class="row bottom5">';
                         echo '<div class="col-10 offset-1">';
                         echo '<div class="card-block">';
@@ -202,6 +207,7 @@
                         if ($counter > 0) {
                             echo '<hr>';
                         }
+                    $result->closeCursor();
                         echo '<div class="row bottom5">';
                         echo '<div class="col-10 offset-1">';
                         echo '<div class="card-block">';
