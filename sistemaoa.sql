@@ -586,10 +586,10 @@ CREATE PROCEDURE `insertarProfesor` (
     IN nombresP varchar(50),
     IN apellidosP varchar(50),
     IN correoP varchar(50),
-    IN idDepartametoP int(11))
+    IN idDep int(11))
 BEGIN
 
-	INSERT INTO profesor (cedulaProf, nombresProf, apellidosProf, correoProf, idDepartamento) VALUES (cedulaP, nombresP, apellidosP, correoP, idDepartamentoP);
+	INSERT INTO profesor (cedulaProf, nombresProf, apellidosProf, correoProf, idDepartamento) VALUES (cedulaP, nombresP, apellidosP, correoP, idDep);
 
 END$$
 
