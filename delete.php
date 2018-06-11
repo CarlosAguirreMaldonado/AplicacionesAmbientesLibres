@@ -10,11 +10,11 @@
         $dirZip = 'zip/' . $filename;
         unlink($dirZip);
     
-        $sql = "DELETE FROM objetoaprendizaje WHERE idOA = :idOA";
+        $sql = "CALL eliminarOA(:idOA)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(':idOA' => $idOA));
     
-        $sql = "DELETE FROM comentario WHERE idOA = :idOA";
+        $sql = "CALL eliminarComentario(:idOA)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(':idOA' => $idOA));
     }

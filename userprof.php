@@ -3,13 +3,7 @@
     require_once "pdo.php";
 
     if (isset($_POST['editProf'])) {
-        $sql = "UPDATE profesor SET
-                nombresProf = :nombresProf,
-                apellidosProf = :apellidosProf,
-                correoProf = :correoProf,
-                idDepartamento = :idDepartamento,
-                usuarioProf = :usuarioProf
-                WHERE idProfesor = :idProfesor";
+        $sql = "CALL editarProfesor(:nombresProf, :apellidosProf, :correoProf, :idDepartamento, :usuarioProf, :idProfesor)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(
             ':nombresProf' => $_POST["nombre"],
@@ -23,7 +17,7 @@
         return;
     }
     if (isset($_POST['changePWProf'])) {
-        $sql = 'SELECT * FROM profesor WHERE idProfesor = :idProfesor';
+        $sql = 'CALL seleccionarUnProfesor(:idProfesor)';
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(':idProfesor' => $_SESSION["userID"]));
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -56,10 +50,7 @@
     }
 
     if (isset($_POST['editAdmin'])) {
-        $sql = "UPDATE administrador SET
-                nombreAdmin = :nombreAdmin,
-                usuarioAdmin = :usuarioAdmin
-                WHERE idAdministrador = :idAdministrador";
+        $sql = "CALL editarAdministrador(:nombreAdmin, :usuarioAdmin, :idAdministrador)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(
             ':nombreAdmin' => $_POST["nombre"],
@@ -70,7 +61,7 @@
         return;
     }
     if (isset($_POST['changePWAdmin'])) {
-        $sql = 'SELECT * FROM administrador WHERE idAdministrador = :idAdministrador';
+        $sql = 'CALL seleccionarUnAdministrador(:idAdministrador)';
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(':idAdministrador' => $_SESSION["userID"]));
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -80,9 +71,7 @@
             if ($_POST["pwNew"] == $_POST["pwConf"]) 
             {
                 $pwd_hash = password_hash($_POST["pwNew"], PASSWORD_DEFAULT);
-                $sql = "UPDATE administrador SET
-                        pwAdmin = :pwAdmin
-                        WHERE idAdministrador = :idAdministrador";
+                $sql = "CALL cambiarPwAdministrador(:pwAdmin, :idAdministrador)";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute(array(
                     ':pwAdmin' => $pwd_hash,
@@ -103,13 +92,7 @@
     }
 
     if (isset($_POST['editEst'])) {
-        $sql = "UPDATE estudiante SET
-                nombresEst = :nombresEst,
-                apellidosEst = :apellidosEst,
-                correoEst = :correoEst,
-                idCarrera = :idCarrera,
-                usuarioEst = :usuarioEst
-                WHERE idEstudiante = :idEstudiante";
+        $sql = "CALL editarEstudiante(:nombresEst, :apellidosEst, :correoEst, :idCarrera, :usuarioEst, :idEstudiante)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(
             ':nombresEst' => $_POST["nombre"],
@@ -123,7 +106,7 @@
         return;
     }
     if (isset($_POST['changePWEst'])) {
-        $sql = 'SELECT * FROM estudiante WHERE idEstudiante = :idEstudiante';
+        $sql = 'CALL seleccionarUnEstudiante(:idEstudiante)';
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(':idEstudiante' => $_SESSION["userID"]));
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -133,9 +116,7 @@
             if ($_POST["pwNew"] == $_POST["pwConf"]) 
             {
                 $pwd_hash = password_hash($_POST["pwNew"], PASSWORD_DEFAULT);
-                $sql = "UPDATE estudiante SET
-                        pwEst = :pwEst
-                        WHERE idEstudiante = :idEstudiante";
+                $sql = "CALL cambiarPwEstudiante(:pwEst, :idEstudiante)";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute(array(
                     ':pwEst' => $pwd_hash,
@@ -203,7 +184,7 @@
                         <?php
                             if ($_SESSION["userType"] == "admin") 
                             {
-                                $sql = "SELECT nombreAdmin, usuarioAdmin FROM administrador WHERE idAdministrador = :id";
+                                $sql = "CALL seleccionarUnAdministrador(:id)";//revisar los selects si no funcionan
                                 $stmt = $pdo->prepare($sql);
                                 $stmt->execute(array(':id' => $_SESSION["userID"]));
                                 $row1 = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -220,7 +201,7 @@
                             }
                             else if ($_SESSION["userType"] == "prof") 
                             {
-                                $sql = "SELECT cedulaProf, nombresProf, apellidosProf, correoProf, idDepartamento, usuarioProf FROM profesor WHERE idProfesor = :id";
+                                $sql = "CALL seleccionarUnProfesor(:id)";
                                 $stmt = $pdo->prepare($sql);
                                 $stmt->execute(array(':id' => $_SESSION["userID"]));
                                 $row1 = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -247,7 +228,7 @@
                                 echo '<div class="form-group">';
                                 echo '<label for="departamento">Departamento</label>';
                                 echo '<select class="form-control" id="departamento" name="departamento">';
-                                $result = $pdo->query("SELECT d.idDepartamento, d.nombreDepartamento, f.nombreFacultad FROM departamento d JOIN facultad f ON d.idFacultad = f.idFacultad");
+                                $result = $pdo->query("CALL seleccionarDepartamentoXFacultad()");
                                 $facultad = ' ';
                                 foreach ($result as $row) {
                                     $departamento = $row['nombreDepartamento'];
@@ -276,7 +257,7 @@
                                 echo '<input class="btn btn-primary btn-block" type="submit" value="Guardar Cambios">';
                             }
                             else {
-                                $sql = "SELECT cedulaEst, nombresEst, apellidosEst, correoEst, idCarrera, usuarioEst FROM estudiante WHERE idEstudiante = :id";
+                                $sql = "CALL seleccionarUnEstudiante(:id)";
                                 $stmt = $pdo->prepare($sql);
                                 $stmt->execute(array(':id' => $_SESSION["userID"]));
                                 $row1 = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -303,7 +284,7 @@
                                 echo '<div class="form-group">';
                                 echo '<label for="departamento">Departamento</label>';
                                 echo '<select class="form-control" id="departamento" name="departamento">';
-                                $result = $pdo->query("SELECT c.idCarrera, c.nombreCarrera, f.nombreFacultad FROM carrera c JOIN facultad f ON c.idFacultad = f.idFacultad");
+                                $result = $pdo->query("CALL selectCarreraXFacultad()");
                                 $facultad = ' ';
                                 foreach ($result as $row) {
                                     $carrera = $row['nombreCarrera'];

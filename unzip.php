@@ -12,8 +12,7 @@
     if ($zip->open($filepath) === TRUE) {
         $zip->extractTo("oa/$descomp/$name");
         $zip->close();
-        $sql = "INSERT INTO rutaoa (idUser, idOA, username, rutaoa)
-                VALUES (:idUser, :idOA, :username, :rutaoa)";
+        $sql = "CALL insertarRutaoa(:idUser, :idOA, :username, :rutaoa)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(
             ':idUser' => $_SESSION["userID"],
