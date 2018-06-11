@@ -1722,3 +1722,11 @@ INSERT INTO `nominaprofesores`(`nombreCompleto`, `puestoInstitucional`, `departa
 INSERT INTO `nominaprofesores`(`nombreCompleto`, `puestoInstitucional`, `departamento`, `telefonoInstitucional`, `extensionTelefonica`, `correoInstitucional`)  VALUES (  'ZUÑIGA PUEBLA HUGO FRANCISCO','PROFESOR OCASIONAL 1 TIEMPO COMPLETO','DEPARTAMENTO DE INGENIERÍAMECÁNICA','02-2976300','','hugo.zuniga@epn.edu.ec');
 INSERT INTO `nominaprofesores`(`nombreCompleto`, `puestoInstitucional`, `departamento`, `telefonoInstitucional`, `extensionTelefonica`, `correoInstitucional`)  VALUES (  'ZURITA FRANCO DARIO DAVID','TECNICO DOCENTE','DEPARTAMENTO DE FORMACIÓNBÁSICA','02-2976300','0','david.zurita@epn.edu.ec');
 
+
+-- Procedimiento almacenado verificar profesor en la base de datos
+DELIMITER $$
+CREATE PROCEDURE spVerificarProfesor (in correo VARCHAR(25))
+BEGIN
+
+SELECT count(*) FROM sistemaoa.nominaprofesores where correoinstitucional=correo;
+END$$
