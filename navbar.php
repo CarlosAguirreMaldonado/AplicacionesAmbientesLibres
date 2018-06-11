@@ -87,12 +87,22 @@
                     <span class="nav-link-text">(?) Pantalla de Inicio: En esta pagina se muestra la pantalla inicial y el ingreso al sistema</span>
                 </a>
             </li2>
-            <li3 class="nav-item" data-toggle="tooltip" data-placement="right" title="Crear">
-                <a class="nav-link">
-                    <span class="nav-link-text">Ayuda - Pantalla inicial</span>
-                </a>
-            </li3>
-        </ul>
+
+            <button id="myBtn">Presione para ayuda</button>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Texto en un Modal..</p>
+  </div>
+
+</div>
+<div class="popup" onclick="myFunction()">Ayuda
+  <span class="popuptext" id="myPopup">Texto de Ayuda</span>
+</div>
+  </ul>
         <?php } ?>
 
         <ul class="navbar-nav ml-auto">
