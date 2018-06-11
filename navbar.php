@@ -74,7 +74,7 @@
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Crear">
                 <a class="nav-link" href="login.php">
                     <i class="fa fa-fw fa-sign-in"></i>
-                    <span class="nav-link-text">Por favor ingresar para poder usar el sistema.</span>
+                    <span class="nav-link-text">Por favor ingrese para poder usar el sistema.</span>
                 </a>
             </li>
 
