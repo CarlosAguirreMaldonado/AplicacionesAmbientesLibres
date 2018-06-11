@@ -38,8 +38,10 @@
       <h1 class="display-2">SISTEMA DE GESTIÓN DE OBJETOS DE APRENDIZAJE</h1>
       <p class="lead">Herramienta diseñada para crear y gestionar objetos de aprendizaje de manera interactiva.</p>
       <p class="lead">¿Qué realiza el Sistema de Gestión de Objetos de Aprendizaje? </p>
-      <p class="lead">El Sistema OA es una herramienta diseñada para crear y gestionar Objetos de Aprendizaje(OA) de manera interactiva. El sistema permite el ingreso para profesores y estudiantes. Los profesores son capaces de crear un OA, importar un OA y buscar OA en el repositorio.</p>
+      <p class="lead">El Sistema OA es una herramienta diseñada para crear y gestionar Objetos de Aprendizaje(OA) de manera interactiva. El sistema permite el ingreso para profesores y estudiantes. Los profesores son capaces de crear un OA, importar un OA y buscar OA en el repositorio. De igual manera, los estudiantes pueden también buscar OA.</p>
       <hr class="my-3">
+      <a class="lead" href="http://www.biblioweb.tic.unam.mx/libros/repositorios/pdf/capitulo_3.pdf">Conocer más</a>
+      <p></p>
       <p class="display-5">Elaborado por:</p>
       <ul type = disk >
       <li>Carlos Aguirre
