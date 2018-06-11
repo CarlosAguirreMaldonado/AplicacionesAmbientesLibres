@@ -126,7 +126,6 @@
                         if ($counter > 0) {
                             echo '<hr>';
                         }
-                    $result->closeCursor();
                         echo '<div class="row bottom5">';
                         echo '<div class="col-10 offset-1">';
                         echo '<div class="card-block">';
@@ -178,6 +177,7 @@
                         echo '</div>';
                         $counter++;
                     }
+                    $result->closeCursor();
                     if (!$iterated) {
                         echo '<div class="row bottom5 top5">';
                         echo '<div class="col-10 offset-1">';
@@ -207,7 +207,6 @@
                         if ($counter > 0) {
                             echo '<hr>';
                         }
-                    $result->closeCursor();
                         echo '<div class="row bottom5">';
                         echo '<div class="col-10 offset-1">';
                         echo '<div class="card-block">';
@@ -259,6 +258,7 @@
                         echo '</div>';
                         $counter++;
                     }
+                    $result->closeCursor();
                     if (!$iterated) {
                         echo '<div class="row bottom5 top5">';
                         echo '<div class="col-10 offset-1">';
@@ -339,6 +339,7 @@
                         echo '</div>';
                         $counter++;
                     }
+                    $result->closeCursor();
                     if (!$iterated) {
                         echo '<div class="row bottom5 top5">';
                         echo '<div class="col-10 offset-1">';
