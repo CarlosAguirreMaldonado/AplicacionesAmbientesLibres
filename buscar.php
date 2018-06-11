@@ -4,8 +4,7 @@
   session_start();
 
   if ( isset($_POST["idOAComment"]) && isset($_POST["comment"]) ) {
-    $sql = "INSERT INTO comentario (detalleComent, idOA, idProfesor)
-            VALUES (:detalleComent, :idOA, :idProfesor)";
+    $sql = "CALL insertarComentario(:detalleComent, :idOA, :idProfesor)";
     $stmt = $pdo->prepare($sql);
     $stmt->execute(array(
       ':detalleComent' => $_POST["comment"],
@@ -178,7 +177,7 @@
           <th style="width:5%;"></th>
         </tr>
         <?php
-          $result = $pdo->query("SELECT * FROM objetoaprendizaje oa JOIN profesor p ON oa.idProfesor = p.idProfesor");
+          $result = $pdo->query("CALL seleccionarComentarioXProfesor()");
           foreach ($result as $row) {
             $id = $row['idOA'];
             $userID = false;
@@ -187,7 +186,7 @@
             }
 
             echo '<tr>';
-            $sql = "SELECT * FROM rutaoa WHERE idOA = :idOA AND idUser = :idUser AND username = :userName";
+            $sql = "CALL seleccionarRutaoa(:idOA, :idUser, :userName)";
             $stmt = $pdo->prepare($sql);
             $stmt->execute(array(':idOA' => $id, 'idUser' => $_SESSION["userID"], 'userName' => $_SESSION["userName"]));
             $ruta = '';
@@ -307,11 +306,7 @@
             echo '</div>';
             echo '<div class="comments">';
             echo '<ul class="list-group">';
-            $sql = "SELECT detalleComent, nombresProf, apellidosProf
-                    FROM comentario c
-                    JOIN profesor p
-                    ON p.idProfesor = c.idProfesor
-                    WHERE idOA = :idOA";
+            $sql = "CALL seleccionarComentarioDeUnProfesor(:idOA)";
             $stmt = $pdo->prepare($sql);
             $stmt->execute(array(':idOA' => $id));
             foreach ($stmt as $comment) {

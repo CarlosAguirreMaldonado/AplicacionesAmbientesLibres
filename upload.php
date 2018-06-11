@@ -16,8 +16,7 @@
 
     if(move_uploaded_file($fileTmpLoc, "zip/$fileName")){
         echo "$fileName upload is complete";
-        $sql = "INSERT INTO objetoaprendizaje (nombre, autor, descripcion, fecha, p_clave, institucion, tamano, tipo, ruta_zip, idProfesor)
-                VALUES (:nombre, :autor, :descripcion, :fecha, :p_clave, :institucion, :fileSize, :tipo, :ruta_zip, :idProfesor)";
+        $sql = "CALL insertarOA (:nombre, :autor, :descripcion, :fecha, :p_clave, :institucion, :fileSize, :tipo, :ruta_zip, :idProfesor)";
         $stmt = $pdo->prepare($sql);
         $size = $fileSize . ' bytes';
         $tipo = 'WinRAR ZIP';

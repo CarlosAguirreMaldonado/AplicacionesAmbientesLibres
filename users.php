@@ -7,10 +7,7 @@
     if ( isset($_POST["usuario"]) && isset($_POST["pw"]) && isset($_POST["idProfAdd"]) &&
         isset($_POST["nomProf"]) && isset($_POST["mailProf"]) ) {
         $pwd_hash = password_hash($_POST["pw"], PASSWORD_DEFAULT);
-        $sql = "UPDATE profesor SET
-                usuarioProf = :usuarioProf,
-                pwProf = :pwProf
-                WHERE idProfesor = :idProfesor";
+        $sql = "CALL editarProfesorUsuarioPw(usuarioProf, :pwProf, :idProfesor)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(
             ':usuarioProf' => $_POST["usuario"],
@@ -27,14 +24,14 @@
         return;
     }
     if ( isset($_POST["idProfDel"]) ) {
-        $sql = "SELECT idOA, ruta_zip FROM objetoaprendizaje WHERE idProfesor = :idProfesor";
+        $sql = "CALL seleccionarRutaOAsProfesor(:idProfesor)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(':idProfesor' => $_POST["idProfDel"]));
         foreach ($stmt as $oa) {
             deleteOA($oa['ruta_zip'], $oa['idOA']);
         }
 
-        $sql = "DELETE FROM profesor WHERE idProfesor = :idProfesor";
+        $sql = "CALL eliminarProfesor(:idProfesor)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(':idProfesor' => $_POST["idProfDel"]));
         $_SESSION["delProf"] = "Profesor eliminado del sistema correctamente.";
@@ -43,7 +40,7 @@
         return;
     }
     if ( isset($_POST["idEstDel"]) ) {
-        $sql = "DELETE FROM estudiante WHERE idEstudiante = :idEstudiante";
+        $sql = "CALL eliminarEstudiante(:idEstudiante)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(':idEstudiante' => $_POST["idEstDel"]));
         $_SESSION["delProf"] = "Estudiante eliminado del sistema correctamente.";
@@ -115,7 +112,7 @@
                 <h5 class="card-header bg-dark text-white">Nuevos Profesores</h5>
                 <div class="card-body">
                 <?php
-                    $result = $pdo->query("SELECT idProfesor, cedulaProf, nombresProf, apellidosProf, correoProf, nombreDepartamento FROM profesor p JOIN departamento d ON p.idDepartamento = d.idDepartamento WHERE usuarioProf = ''");
+                    $result = $pdo->query("CALL seleccionarProfesorXDepartamentoSinUsuario()");
                     $iterated = false;
                     $counter = 0;
                     foreach ($result as $row) {
@@ -196,7 +193,7 @@
                 <h4 class="card-header bg-dark text-white">Profesores</h4>
                 <div class="card-body">
                 <?php
-                    $result = $pdo->query("SELECT * FROM profesor p JOIN departamento d ON p.idDepartamento = d.idDepartamento WHERE usuarioProf != ''");
+                    $result = $pdo->query("CALL seleccionarProfesorXDepartamentoConUsuario()");
                     $iterated = false;
                     $counter = 0;
                     foreach ($result as $row) {
@@ -276,7 +273,7 @@
                 <h5 class="card-header bg-dark text-white">Estudiantes</h5>
                 <div class="card-body">
                 <?php
-                    $result = $pdo->query("SELECT * FROM estudiante e JOIN carrera c ON e.idCarrera = c.idCarrera");
+                    $result = $pdo->query("CALL seleccionarEstudianteXCarrera()");
                     $iterated = false;
                     $counter = 0;
                     foreach ($result as $row) {

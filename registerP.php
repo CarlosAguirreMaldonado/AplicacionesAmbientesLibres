@@ -7,8 +7,7 @@
     && isset($_POST["correo"]) && isset($_POST["departamento"]) ) {
     if (validarCedula($_POST["cedula"])) 
     {
-      $sql = "INSERT INTO profesor (cedulaProf, nombresProf, apellidosProf, correoProf, idDepartamento)
-      VALUES (:cedulaProf, :nombresProf, :apellidosProf, :correoProf, :idDepartamento)";
+      $sql = "CALL insertarProfesor(:cedulaProf, :nombresProf, :apellidosProf, :correoProf, :idDepartamento)";
       $stmt = $pdo->prepare($sql);
       $stmt->execute(array(
       ':cedulaProf' => $_POST["cedula"],

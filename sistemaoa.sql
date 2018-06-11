@@ -64,6 +64,61 @@ END$$
 
 DELIMITER ;
 
+-- Select a Administrador
+
+DROP procedure IF EXISTS `seleccionarUnAdministrador`;
+
+DELIMITER $$
+CREATE PROCEDURE `seleccionarUnAdministrador` (
+	IN idAdministradorN int(11)
+)
+BEGIN
+
+	SELECT * FROM administrador WHERE idAdministrador = idAdministradorN;
+    
+END$$
+
+DELIMITER ;
+
+-- Editar Administrador
+
+DROP procedure IF EXISTS `editarAdministrador`;
+
+DELIMITER $$
+CREATE PROCEDURE `editarAdministrador` (
+	IN nombresAdminN varchar(50),
+    IN usuarioAdminN varchar(15),
+    IN idAministradorN int(11)
+)
+BEGIN
+
+	UPDATE administrador SET
+                nombreAdmin = nombreAdminN,
+                usuarioAdmin = usuarioAdminN
+                WHERE idAdministrador = idAdministradorN;
+    
+END$$
+
+DELIMITER ;
+
+-- Editar password Administrador
+
+DROP procedure IF EXISTS `cambiarPwAdministrador`;
+
+DELIMITER $$
+CREATE PROCEDURE `cambiarPwAdministrador` (
+	IN pwAdminN varchar(50),
+    IN idAministradorN int(11)
+)
+BEGIN
+
+	UPDATE administrador SET pwAdmin = pwAdminN
+    WHERE idAdministrador = idAdministradorN;
+    
+END$$
+
+DELIMITER ;
+
 --
 -- Table structure for table `carrera`
 --
@@ -95,6 +150,7 @@ UNLOCK TABLES;
 --
 -- Select carrera per facultad
 
+-- SP repetido en codigo fuente
 DROP procedure IF EXISTS `selectCarreraXFacultad`;
 
 DELIMITER $$
@@ -126,6 +182,73 @@ CREATE TABLE `comentario` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+-- Stored procedures for table `comentario`
+
+-- Insert a comentario
+
+DROP procedure IF EXISTS `insertarComentario`;
+
+DELIMITER $$
+CREATE PROCEDURE `insertarComentario` (
+	IN detalleComentN text,
+    IN idOAN int(11),
+    IN idProfesorN int(11))
+BEGIN
+
+	INSERT INTO comentario (detalleComent, idOA, idProfesor)
+            VALUES (detalleComent, idOA, idProfesor);
+
+END$$
+
+DELIMITER ;
+
+-- select comentarioXprofesor
+
+DROP procedure IF EXISTS `seleccionarComentarioXProfesor`;
+
+DELIMITER $$
+CREATE PROCEDURE `seleccionarComentarioXProfesor` ()
+BEGIN
+
+	SELECT * FROM objetoaprendizaje oa JOIN profesor p ON oa.idProfesor = p.idProfesor;
+
+END$$
+
+DELIMITER ;
+
+
+-- Insert a seleccionar Comentario De Un Profesor
+
+DROP procedure IF EXISTS `seleccionarComentarioDeUnProfesor`;
+
+DELIMITER $$
+CREATE PROCEDURE `seleccionarComentarioDeUnProfesor` (
+	IN idOAN int(11))
+BEGIN
+
+	SELECT detalleComent, nombresProf, apellidosProf
+	FROM comentario c JOIN profesor p
+	ON p.idProfesor = c.idProfesor
+    WHERE idOA = idOAN;
+END$$
+
+DELIMITER ;
+
+-- Delete comentario
+
+DROP procedure IF EXISTS `eliminarComentario`;
+
+DELIMITER $$
+CREATE PROCEDURE `eliminarComentario` (
+	IN idOAN int(11))
+BEGIN
+
+	DELETE FROM comentario WHERE idOA = idOAN;
+
+END$$
+
+DELIMITER ;
+
 --
 -- Table structure for table `departamento`
 --
@@ -151,6 +274,24 @@ LOCK TABLES `departamento` WRITE;
 INSERT INTO `departamento` VALUES (1,'Departamento de Física (DF)',1),(2,'Departamento de Matemática (DM)',1),(3,'Departamento de Ciencias Administrativas (DEPCA)',2),(4,'Departamento de Estudios Organizacionales Desarrollo Humano (DESODEH)',2),(5,'Departamento de Ingeniería Civil y Ambiental (DICA)',3),(6,'Departamento de Automatización y Control Industrial (DACI)',4),(7,'Departamento de Energía Eléctrica (DEE)',4),(8,'Departamento de Electrónica, Telecomunicaciones y Redes de Información (DETRI)',4),(9,'Departamento de Geología (DG)',5),(10,'Departamento de Petróleos (DP)',5),(11,'Departamento de Ingenieria Mecanica (DIM)',6),(12,'Departamento de Materiales (DMT)',6),(13,'Departamento de Ingeniería Química (DIQ)',7),(14,'Departamento de Ciencias de Alimentos y Biotecnología (DECAB)',7),(15,'Departamento de Ciencias Nucleares (DCN)',7),(16,'Departamento de Metalurgia Extractiva (DEMEX)',7),(17,'Departamento de Informática y Ciencias de la Computación (DICC)',8),(18,'Departamento de Formacion Basica (DFB)',10),(19,'Instituto Geofisico',10),(20,'Departamento de Ciencias Sociales',10);
 /*!40000 ALTER TABLE `departamento` ENABLE KEYS */;
 UNLOCK TABLES;
+
+-- Stored procedures for table `departamento`
+
+-- Select Despartamento per Facultad
+
+DROP procedure IF EXISTS `seleccionarDepartamentoXFacultad`;
+
+DELIMITER $$
+CREATE PROCEDURE `seleccionarDepartamentoXFacultad`()
+BEGIN
+
+	SELECT d.idDepartamento, d.nombreDepartamento, f.nombreFacultad 
+    FROM departamento d JOIN facultad f 
+    ON d.idFacultad = f.idFacultad;
+
+END$$
+
+DELIMITER ;
 
 --
 -- Table structure for table `estudiante`
@@ -214,6 +355,97 @@ END$$
 
 DELIMITER ;
 
+-- Select a Estudiante
+
+DROP procedure IF EXISTS `seleccionarUnEstudiante`;
+
+DELIMITER $$
+CREATE PROCEDURE `seleccionarUnEstudiante` (
+	IN idEstudianteN int(11)
+)
+BEGIN
+
+	SELECT * FROM estudiante WHERE idEstudiante = idEstudianteN;
+    
+END$$
+
+DELIMITER ;
+
+-- Editar Estudiante
+
+DROP procedure IF EXISTS `editarEstudiante`;
+
+DELIMITER $$
+CREATE PROCEDURE `editarEstudiante` (
+	IN nombresEstN varchar(50),
+    IN apellidoEstN varchar(50),
+    IN correoEstN varchar(50),
+    IN idCarreraN int(11),
+    IN usuarioEstN varchar(15),
+    IN idEstudianteN int(11)
+)
+BEGIN
+
+	UPDATE estudiante SET
+                nombresEst = nombresEstN,
+                apellidosEst = apellidosEstN,
+                correoEst = correoEstN,
+                idCarrera = idCarreraN,
+                usuarioEst = usuarioEstN
+                WHERE idEstudiante = idEstudianteN;
+    
+END$$
+
+DELIMITER ;
+
+-- Editar password Estudiante
+
+DROP procedure IF EXISTS `cambiarPwEstudiante`;
+
+DELIMITER $$
+CREATE PROCEDURE `cambiarPwEstudiante` (
+	IN pwEstN varchar(50),
+    IN idEstudianteN int(11)
+)
+BEGIN
+
+	UPDATE estudiante SET pwEst = pwEstN
+	WHERE idEstudiante = idEstudianteN;
+    
+END$$
+
+DELIMITER ;
+
+-- Delete estudiante
+
+DROP procedure IF EXISTS `eliminarEstudiante`;
+
+DELIMITER $$
+CREATE PROCEDURE `eliminarEstudiante` (
+	IN idEstudianteN int(11))
+BEGIN
+
+	DELETE FROM estudiante WHERE idEstudiante = idEstudianteN;
+
+END$$
+
+DELIMITER ;
+
+-- Select Estudiante per Carrera
+
+DROP procedure IF EXISTS `seleccionarEstudianteXCarrera`;
+
+DELIMITER $$
+CREATE PROCEDURE `seleccionarEstudianteXCarrera`()
+BEGIN
+
+	SELECT * FROM estudiante e JOIN carrera c ON e.idCarrera = c.idCarrera;
+
+END$$
+
+DELIMITER ;
+
+
 --
 -- Table structure for table `facultad`
 --
@@ -260,6 +492,64 @@ CREATE TABLE `objetoaprendizaje` (
   `idProfesor` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+--
+-- Stored Procedures for table 'objetoaprendizaje'
+--
+-- InsertarObjetoAprendizaje
+
+DROP procedure IF EXISTS `insertarOA`;
+
+DELIMITER $$
+CREATE PROCEDURE `insertarOA` (
+	IN nombreOA varchar(50),
+    IN autorOA varchar(100),
+    IN descripcionOA varchar(1000),
+    IN fechaOA date,
+    IN p_claveOA varchar(200),
+    IN institucionOA varchar(100),
+    IN tamanoOA varchar(100),
+    IN tipoOA varchar(10),
+    IN ruta_zipOA varchar(200),
+    IN idProfesorOA int(11))
+BEGIN
+
+	INSERT INTO objetoaprendizaje (nombre, autor, descripcion, fecha, p_clave, institucion, tamano, tipo, ruta_zip, idProfesor)
+                VALUES (nombreOA, autorOA, descripcionOA, fechaOA, p_claveOA, institucionOA, tamanoOA, tipoOA, ruta_zipOA, idProfesorOA);
+                
+END$$
+
+DELIMITER ;
+
+-- Delete objeto aprendizaje
+
+DROP procedure IF EXISTS `eliminarOA`;
+
+DELIMITER $$
+CREATE PROCEDURE `eliminarOA` (
+	IN idOAN int(11))
+BEGIN
+
+	DELETE FROM objetoaprendizaje WHERE idOA = idOAN;
+
+END$$
+
+DELIMITER ;
+
+-- Select ruta e id de OAs de un profesor
+
+DROP procedure IF EXISTS `seleccionarRutaOAsProfesor`;
+
+DELIMITER $$
+CREATE PROCEDURE `seleccionarRutaOAsProfesor` (
+	IN idProfesorOA int(11))
+BEGIN
+
+	SELECT idOA, ruta_zip FROM objetoaprendizaje 
+    WHERE idProfesor = idProfesorOA;
+                
+END$$
+
+DELIMITER ;
 
 --
 -- Table structure for table `profesor`
@@ -283,7 +573,7 @@ CREATE TABLE `profesor` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Stored Procedures for table 'administrador'
+-- Stored Procedures for table 'profesor'
 --
 -- InsertarProfesor
 
@@ -315,13 +605,121 @@ CREATE PROCEDURE `selectUsuarioProfesor` (
 )
 BEGIN
 
-	SELECT * FROM profesor 
-    WHERE usuarioProf = usuario;
+	SELECT * FROM profesor WHERE usuarioProf = usuario;
     
 END$$
 
 DELIMITER ;
 
+-- Select a Profesor
+
+DROP procedure IF EXISTS `seleccionarUnProfesor`;
+
+DELIMITER $$
+CREATE PROCEDURE `seleccionarUnProfesor` (
+	IN idProfesorN int(11)
+)
+BEGIN
+
+	SELECT * FROM profesor WHERE idProfesor = idProfesorN;
+    
+END$$
+
+DELIMITER ;
+
+-- Editar Profesor
+
+DROP procedure IF EXISTS `editarProfesor`;
+
+DELIMITER $$
+CREATE PROCEDURE `editarProfesor` (
+	IN nombresProfN varchar(50),
+    IN apellidoProfN varchar(50),
+    IN correoProf varchar(50),
+    IN idDepartamentoN int(11),
+    IN usuarioProfN varchar(15),
+    IN idProfesorN int(11)
+)
+BEGIN
+
+	UPDATE profesor SET
+                nombresProf = nombresProfN,
+                apellidosProf = apellidosProfN,
+                correoProf = correoProfN,
+                idDepartamento = idDepartamentoN,
+                usuarioProf = usuarioProfN
+                WHERE idProfesor = idProfesorN;
+    
+END$$
+
+DELIMITER ;
+
+-- Agregar usuario y pw de profesor
+
+DROP procedure IF EXISTS `editarProfesorUsuarioPw`;
+
+DELIMITER $$
+CREATE PROCEDURE `editarProfesorUsuarioPw` (
+	IN usuarioProfN varchar(15),
+    IN pwProfN varchar(255),
+    IN idProfesorN int(11)
+)
+BEGIN
+
+	UPDATE profesor SET
+                usuarioProf = usuarioProfN,
+                pwProf = pwProfN
+                WHERE idProfesor = idProfesorN;
+    
+END$$
+
+DELIMITER ;
+
+-- Delete profesor
+
+DROP procedure IF EXISTS `eliminarProfesor`;
+
+DELIMITER $$
+CREATE PROCEDURE `eliminarProfesor` (
+	IN idProfesorN int(11))
+BEGIN
+
+	DELETE FROM profesor WHERE idProfesor = idProfesorN;
+
+END$$
+
+DELIMITER ;
+
+-- Select Profesor per Departamento sin usuario
+
+DROP procedure IF EXISTS `seleccionarProfesorXDepartamentoSinUsuario`;
+
+DELIMITER $$
+CREATE PROCEDURE `seleccionarProfesorXDepartamentoSinUsuario`()
+BEGIN
+
+	SELECT idProfesor, cedulaProf, nombresProf, apellidosProf, correoProf, nombreDepartamento 
+    FROM profesor p JOIN departamento d ON p.idDepartamento = d.idDepartamento 
+    WHERE usuarioProf = '';
+
+END$$
+
+DELIMITER ;
+
+-- Select Profesor per Departamento con usuario
+
+DROP procedure IF EXISTS `seleccionarProfesorXDepartamentoConUsuario`;
+
+DELIMITER $$
+CREATE PROCEDURE `seleccionarProfesorXDepartamentoConUsuario`()
+BEGIN
+
+	SELECT * FROM profesor p JOIN departamento d ON p.idDepartamento = d.idDepartamento 
+    WHERE usuarioProf != '';
+
+END$$
+
+DELIMITER ;
 
 --
 -- Table structure for table `rutaoa`
@@ -357,5 +755,60 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Stored procedures for table `rutaoa`
+
+-- Insert a rutaoa
+
+DROP procedure IF EXISTS `insertarRutaoa`;
+
+DELIMITER $$
+CREATE PROCEDURE `insertarRutaoa` (
+	IN idUserN int(11),
+    IN idOAN int(11),
+    IN userNameN varchar(20),
+    IN rutaoaN varchar(200))
+BEGIN
+
+	INSERT INTO rutaoa (idUser, idOA, username, rutaoa)
+                VALUES (idUserN, idOAN, userNameN, rutaoaN);
+END$$
+
+DELIMITER ;
+
+-- Select a rutaoa
+
+DROP procedure IF EXISTS `seleccionarRutaoa`;
+
+DELIMITER $$
+CREATE PROCEDURE `seleccionarRutaoa` (
+	IN idOAN int(11),
+    IN idUserN int(11),
+    IN userNameN varchar(20))
+BEGIN
+
+	SELECT * FROM rutaoa 
+    WHERE idOA = idOAN AND idUser = idUserN AND username = userNameN;
+
+END$$
+
+DELIMITER ;
+
+-- Delete rutaoa
+
+DROP procedure IF EXISTS `eliminarRutaoa`;
+
+DELIMITER $$
+CREATE PROCEDURE `eliminarRutaoa` (
+	IN idUserN int(11),
+    IN userNameN varchar(20))
+BEGIN
+
+	DELETE FROM rutaoa WHERE idUser = idUserN AND username = userNameN;
+
+END$$
+
+DELIMITER ;
+
 
 -- Dump completed on 2018-02-20 18:06:13
