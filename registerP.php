@@ -37,7 +37,7 @@
 			  ));
 			
 			$_SESSION["reg"] = "Registro exitoso, su usuario y contraseña (temporal) serán enviadas a su correo";
-			sendMailP($correoP, $nameto,$user,$randomPW);
+			sendMailP($correoP, $nameto, $user, $randomPW);
 			header( 'Location: index.php' ) ;
 			return;
 		}else{
