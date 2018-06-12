@@ -354,7 +354,7 @@
             {
               echo '<button type="button" class="btn btn-primary btn-block" onclick="unzip(' . "'" . $row['ruta_zip'] . "', '" . $id . "'" . ')" >Previsualizar</button>';
             } else {
-              echo '<button type="button" class="btn btn-primary btn-block disabled"">Previsualizar</button>';
+              echo '<button type="button" class="btn btn-primary" class="btn btn-primary btn-block">Previsualizar</button>';
             }
             echo '</div>';
             echo '<div class="col-3">';
