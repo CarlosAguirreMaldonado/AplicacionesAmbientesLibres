@@ -526,7 +526,7 @@ DROP procedure IF EXISTS `editarUnOA`;
 
 DELIMITER $$
 CREATE PROCEDURE `editarUnOA` (
-	IN nombresOA varchar(50),
+	IN nombreOA varchar(50),
     IN autorOA varchar(100),
     IN descripcionOA varchar(1000),
     IN fechaOA date,
