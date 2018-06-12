@@ -19,11 +19,17 @@ function sendMailP($mailto, $nameto, $usuario, $pw) {
         $mail->Password = 'sistemaoa2017';                           // SMTP password
         $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
         $mail->Port = 587;                                    // TCP port to connect to
-
+		$mail->SMTPOptions = array(
+			'ssl' => array(
+				'verify_peer' => false,
+				'verify_peer_name' => false,
+				'allow_self_signed' => true
+			)
+		);
         //Recipients
         $mail->setFrom('mailer.sistema.oa@gmail.com', 'Sistema OA');
         $mail->addAddress($mailto, $nameto);     // Add a recipient
-
+	
         //Content
         $mail->isHTML(true);                                  // Set email format to HTML
         $mail->Subject = 'Registro Profesor Sistema OA';
@@ -33,9 +39,12 @@ function sendMailP($mailto, $nameto, $usuario, $pw) {
                         Su cuenta ha sido activada por el administrado del sistema.';
 
         $mail->send();
-        echo 'Message has been sent';
+        
     } catch (Exception $e) {
-        echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+        // console.log( 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo);
+		echo '<script language="javascript">';
+		echo 'alert("Message could not be sent. Mailer Error")';
+		echo '</script>';
     }
 }
 
@@ -51,11 +60,17 @@ function sendMailA($mailto, $nameto) {
         $mail->Password = 'sistemaoa2017';                           // SMTP password
         $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
         $mail->Port = 587;                                    // TCP port to connect to
-
+		$mail->SMTPOptions = array(
+		'ssl' => array(
+				'verify_peer' => false,
+				'verify_peer_name' => false,
+				'allow_self_signed' => true
+			)
+		);
         //Recipients
         $mail->setFrom('mailer.sistema.oa@gmail.com', 'Sistema OA');
         $mail->addAddress('mailer.sistema.oa@gmail.com', 'Sistema OA');     // Add a recipient
-
+	
         //Content
         $mail->isHTML(true);                                  // Set email format to HTML
         $mail->Subject = 'Nuevo Registro de Profesor Sistema OA';
