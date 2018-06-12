@@ -68,6 +68,7 @@
                       <span class="nav-link-text">- Buscar: busca los OA que se encuentren en el repositorio.</span>
                     </a>
                 </li2>
+                <button type= "button" class= "btn btn-danger" data-toggle="modal" data-target="#myModalEst" >Ayuda</button>
             <?php } ?>
 
             <?php
@@ -159,6 +160,15 @@
     <div class="modal-content"style="width: 1040px; height: 640px;">
         <div class="modal-body">
             <img src="AyudaIni.png" class="img-responsive" style="width: 1000px; height: 600px;">
+        </div>
+    </div>
+  </div>
+</div>
+<div id="myModalEst" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+  <div class="modal-dialog" >
+    <div class="modal-content"style="width: 1040px; height: 640px;">
+        <div class="modal-body">
+            <img src="AyudaEst.png" class="img-responsive" style="width: 1000px; height: 600px;">
         </div>
     </div>
   </div>
