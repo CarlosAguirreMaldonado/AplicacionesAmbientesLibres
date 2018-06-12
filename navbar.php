@@ -49,8 +49,10 @@
                     <li>
                         <a href="buscar.php">Buscar Objetos de Aprendizaje</a>
                     </li>
+
                 </ul>
             </li>
+            <button type= "button" class= "btn btn-danger" data-toggle="modal" data-target="#myModalProf" >Ayuda</button>
             <?php
                 if ( $_SESSION["userType"] != 'admin' && $_SESSION["userType"] != 'prof') {
             ?>
@@ -169,6 +171,15 @@
     <div class="modal-content"style="width: 1040px; height: 640px;">
         <div class="modal-body">
             <img src="AyudaEst.png" class="img-responsive" style="width: 1000px; height: 600px;">
+        </div>
+    </div>
+  </div>
+</div>
+<div id="myModalProf" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+  <div class="modal-dialog" >
+    <div class="modal-content"style="width: 1040px; height: 640px;">
+        <div class="modal-body">
+            <img src="AyudaProf.png" class="img-responsive" style="width: 1000px; height: 600px;">
         </div>
     </div>
   </div>
