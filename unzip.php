@@ -19,6 +19,6 @@
             ':idOA' => $_POST["id"],
             ':username' => $_SESSION["userName"],
             ':rutaoa' => "oa/$descomp/$name/index.html"));
-        $_SESSION["oa"] = "Objeto de Aprendizaje descomprimido correctamente.";
+        $_SESSION["oa"] = "Objeto listo para ser previzualizado";
     }
 ?>

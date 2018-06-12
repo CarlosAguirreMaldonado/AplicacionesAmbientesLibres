@@ -352,9 +352,9 @@
             }
             if ($ruta == '')
             {
-              echo '<button type="button" class="btn btn-primary btn-block" onclick="unzip(' . "'" . $row['ruta_zip'] . "', '" . $id . "'" . ')">Descomprimir</button>';
+              echo '<button type="button" class="btn btn-primary btn-block" onclick="unzip(' . "'" . $row['ruta_zip'] . "', '" . $id . "'" . ')" >Previsualizar</button>';
             } else {
-              echo '<button type="button" class="btn btn-primary btn-block disabled">Descomprimir</button>';
+              echo '<button type="button" class="btn btn-primary btn-block disabled" >Previsualizar</button>';
             }
             echo '</div>';
             echo '<div class="col-3">';
@@ -443,7 +443,7 @@
         var ajax = new XMLHttpRequest();
         ajax.open("POST", "unzip.php");
         ajax.send(formdata);
-        alert("Objeto de Aprendizaje descomprimido con exito!");
+        
         javascript:location.href='buscar.php';
       }
     </script>
