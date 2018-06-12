@@ -82,6 +82,7 @@
                       <span class="nav-link-text">- El administrador puede además de buscar un OA en el repositorio, elimiar estu y profesores.</span>
                     </a>
                 </li2>
+
             <?php } ?>
 
             <?php
@@ -127,21 +128,10 @@
               </br>
                 </a>
             </li2>
+            <button type= "button" class= "btn btn-danger" data-toggle="modal" data-target="#myModalIni" >
+            Ayuda
+            </button>
 
-            <button id="myBtn">Presione para ayuda</button>
-<!-- The Modal -->
-<div id="myModal" class="modal">
-
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p>Texto en un Modal..</p>
-  </div>
-
-</div>
-<div class="popup" onclick="myFunction()">Ayuda
-  <span class="popuptext" id="myPopup">Texto de Ayuda</span>
-</div>
   </ul>
         <?php } ?>
 
@@ -152,7 +142,8 @@
             <li class="nav-item">
                 <a class="nav-link" href="login.php">
                     <i class="fa fa-fw fa-sign-in"></i>Login</a>
-            </li>
+            </li<
+
             <?php } else { ?>
                 <li class="nav-item">
                 <a class="nav-link" href="userprof.php">
@@ -171,9 +162,19 @@
                         <i class="fa fa-fw fa-sign-out"></i>Logout</a>
                 </li>
 
+
             <?php } ?>
         </ul>
 
     </div>
 
 </nav>
+<div id="myModalIni" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+  <div class="modal-dialog" >
+    <div class="modal-content"style="width: 1040px; height: 640px;">
+        <div class="modal-body">
+            <img src="AyudaIni.png" class="img-responsive" style="width: 1000px; height: 600px;">
+        </div>
+    </div>
+  </div>
+</div>
