@@ -15,6 +15,16 @@
             <?php
                 if ( $_SESSION["userType"] == 'prof' ) {
             ?>
+            <li2 class="nav-item" data-toggle="tooltip" data-placement="right" title="Crear">
+                <a class="nav-link"><p>
+                    <span class="nav-link-text">(?) Pantalla de Profesor: En esta pagina se muestra las opciones para profesor para:</span></p>
+                    <span class="nav-link-text">- Crear: Crea un OA con ExeLearning.</span>
+                  </br>
+                    <span class="nav-link-text">- importar: Sube un OA en formato .zip creado con ExeLearning al repositorio de OA.</span>
+                  </br>
+                    <span class="nav-link-text">- Buscar: Busca un OA en el repositorio de OA.</span>
+                </a>
+            </li2>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Crear">
                     <a class="nav-link" href="exe.php">
                         <i class="fa fa-fw fa-file-text-o"></i>
@@ -31,6 +41,7 @@
                     <?php
                         if ( $_SESSION["userType"] == 'prof' ) {
                     ?>
+
                         <li>
                             <a href="importar.php">Importar y catalogar Objetos de Aprendizaje</a>
                         </li>
@@ -41,7 +52,7 @@
                 </ul>
             </li>
             <?php
-                if ( $_SESSION["userType"] != 'admin' ) {
+                if ( $_SESSION["userType"] != 'admin' && $_SESSION["userType"] != 'prof') {
             ?>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Crear">
                     <a class="nav-link" href="tools.php">
@@ -49,7 +60,16 @@
                         <span class="nav-link-text">Herramientas Adicionales</span>
                     </a>
                 </li>
+                <li2 class="nav-item" data-toggle="tooltip" data-placement="right" title="Crear">
+                    <a class="nav-link">
+                      <p>
+                        <span class="nav-link-text">(?) Pantalla de Estudiante: En esta pagina se muestran las opciones del estudiante.</span>
+                      </p>
+                      <span class="nav-link-text">- Buscar: busca los OA que se encuentren en el repositorio.</span>
+                    </a>
+                </li2>
             <?php } ?>
+
             <?php
                 if ( $_SESSION["userType"] == 'admin' ) {
             ?>
@@ -59,6 +79,14 @@
                         <span class="nav-link-text">Usuarios</span>
                     </a>
                 </li>
+                <li2 class="nav-item" data-toggle="tooltip" data-placement="right" title="Crear">
+                    <a class="nav-link">
+                      <p>
+                        <span class="nav-link-text">(?) Pantalla de Administrador: En esta pagina se muestran las opciones del administrador para el manejo de Usuarios</span>
+                      </p>
+                      <span class="nav-link-text">- El administrador puede además de buscar un OA en el repositorio, elimiar estudiantes y profesores.</span>
+                    </a>
+                </li2>
             <?php } ?>
         </ul>
         <ul class="navbar-nav sidenav-toggler">
