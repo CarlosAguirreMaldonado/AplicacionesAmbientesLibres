@@ -17,7 +17,7 @@
   ?>
   <div class="content-wrapper">
     <div>
-      <object type="text/html" data="https://88682667.ngrok.io" width="100%" height="580px">
+      <object type="text/html" data="http://exelearning.net/" width="100%" height="700px">
       </object>
     </div>
     <?php
