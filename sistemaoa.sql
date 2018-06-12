@@ -70,11 +70,11 @@ DROP procedure IF EXISTS `seleccionarUnAdministrador`;
 
 DELIMITER $$
 CREATE PROCEDURE `seleccionarUnAdministrador` (
-	IN idAdministradorN int(11)
+	IN idAdmin int(11)
 )
 BEGIN
 
-	SELECT * FROM administrador WHERE idAdministrador = idAdministradorN;
+	SELECT * FROM administrador WHERE idAdministrador = idAdmin;
     
 END$$
 
@@ -86,16 +86,16 @@ DROP procedure IF EXISTS `editarAdministrador`;
 
 DELIMITER $$
 CREATE PROCEDURE `editarAdministrador` (
-	IN nombresAdminN varchar(50),
+	IN nombreAdminN varchar(50),
     IN usuarioAdminN varchar(15),
-    IN idAministradorN int(11)
+    IN idAdminN int(11)
 )
 BEGIN
 
 	UPDATE administrador SET
                 nombreAdmin = nombreAdminN,
                 usuarioAdmin = usuarioAdminN
-                WHERE idAdministrador = idAdministradorN;
+                WHERE idAdministrador = idAdminN;
     
 END$$
 
@@ -108,12 +108,13 @@ DROP procedure IF EXISTS `cambiarPwAdministrador`;
 DELIMITER $$
 CREATE PROCEDURE `cambiarPwAdministrador` (
 	IN pwAdminN varchar(50),
-    IN idAministradorN int(11)
+    IN idAdminN int(11)
 )
 BEGIN
 
-	UPDATE administrador SET pwAdmin = pwAdminN
-    WHERE idAdministrador = idAdministradorN;
+	UPDATE administrador 
+    SET pwAdmin = pwAdminN
+    WHERE idAdministrador = idAdminN;
     
 END$$
 
@@ -190,13 +191,13 @@ DROP procedure IF EXISTS `insertarComentario`;
 
 DELIMITER $$
 CREATE PROCEDURE `insertarComentario` (
-	IN detalleComentN text,
+	IN detalleN text,
     IN idOAN int(11),
     IN idProfesorN int(11))
 BEGIN
 
 	INSERT INTO comentario (detalleComent, idOA, idProfesor)
-            VALUES (detalleComent, idOA, idProfesor);
+            VALUES (detalleN, idOAN, idProfesorN);
 
 END$$
 
@@ -223,7 +224,8 @@ DROP procedure IF EXISTS `seleccionarComentarioDeUnProfesor`;
 
 DELIMITER $$
 CREATE PROCEDURE `seleccionarComentarioDeUnProfesor` (
-	IN idOAN int(11))
+	IN idOAN int(11)
+)
 BEGIN
 
 	SELECT detalleComent, nombresProf, apellidosProf
@@ -240,7 +242,8 @@ DROP procedure IF EXISTS `eliminarComentario`;
 
 DELIMITER $$
 CREATE PROCEDURE `eliminarComentario` (
-	IN idOAN int(11))
+	IN idOAN int(11)
+)
 BEGIN
 
 	DELETE FROM comentario WHERE idOA = idOAN;
@@ -328,11 +331,11 @@ CREATE PROCEDURE `insertarEstudiante` (
     IN correoE varchar(50),
     IN carreraE int(11),
     IN usuarioE varchar(25), 
-    IN passwordE varchar(225))
+    IN pwE varchar(225))
 BEGIN
 
 	INSERT INTO estudiante (cedulaEst, nombresEst, apellidosEst, correoEst, idCarrera, usuarioEst, pwEst)
-              VALUES (cedulaE, nombresE, apellidosE, correoE, carreraE, usuarioE, passwordE);
+              VALUES (cedulaE, nombresE, apellidosE, correoE, carreraE, usuarioE, pwE);
 
 END$$
 
@@ -361,11 +364,11 @@ DROP procedure IF EXISTS `seleccionarUnEstudiante`;
 
 DELIMITER $$
 CREATE PROCEDURE `seleccionarUnEstudiante` (
-	IN idEstudianteN int(11)
+	IN idEN int(11)
 )
 BEGIN
 
-	SELECT * FROM estudiante WHERE idEstudiante = idEstudianteN;
+	SELECT * FROM estudiante WHERE idEstudiante = idEN;
     
 END$$
 
@@ -377,22 +380,22 @@ DROP procedure IF EXISTS `editarEstudiante`;
 
 DELIMITER $$
 CREATE PROCEDURE `editarEstudiante` (
-	IN nombresEstN varchar(50),
-    IN apellidoEstN varchar(50),
-    IN correoEstN varchar(50),
+	IN nombresN varchar(50),
+    IN apellidosN varchar(50),
+    IN correoN varchar(50),
     IN idCarreraN int(11),
-    IN usuarioEstN varchar(15),
-    IN idEstudianteN int(11)
+    IN usuarioN varchar(15),
+    IN idEN int(11)
 )
 BEGIN
 
 	UPDATE estudiante SET
-                nombresEst = nombresEstN,
-                apellidosEst = apellidosEstN,
-                correoEst = correoEstN,
+                nombresEst = nombresN,
+                apellidosEst = apellidosN,
+                correoEst = correoN,
                 idCarrera = idCarreraN,
-                usuarioEst = usuarioEstN
-                WHERE idEstudiante = idEstudianteN;
+                usuarioEst = usuarioN
+                WHERE idEstudiante = idEN;
     
 END$$
 
@@ -405,12 +408,12 @@ DROP procedure IF EXISTS `cambiarPwEstudiante`;
 DELIMITER $$
 CREATE PROCEDURE `cambiarPwEstudiante` (
 	IN pwEstN varchar(50),
-    IN idEstudianteN int(11)
+    IN idEN int(11)
 )
 BEGIN
 
 	UPDATE estudiante SET pwEst = pwEstN
-	WHERE idEstudiante = idEstudianteN;
+	WHERE idEstudiante = idEN;
     
 END$$
 
@@ -422,10 +425,10 @@ DROP procedure IF EXISTS `eliminarEstudiante`;
 
 DELIMITER $$
 CREATE PROCEDURE `eliminarEstudiante` (
-	IN idEstudianteN int(11))
+	IN idEN int(11))
 BEGIN
 
-	DELETE FROM estudiante WHERE idEstudiante = idEstudianteN;
+	DELETE FROM estudiante WHERE idEstudiante = idEN;
 
 END$$
 
