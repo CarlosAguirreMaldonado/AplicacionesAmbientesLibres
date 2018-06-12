@@ -117,7 +117,9 @@
                 <span class="nav-link-text">- Administrador: maneja la información de los usuarios.</span>
               </br>
                 </a>
+
             </li2>
+            <button type= "button" class= "btn btn-danger" data-toggle="modal" data-target="#myModalIni" >Ayuda</button>
         </ul>
         <?php } ?>
 
@@ -152,3 +154,12 @@
     </div>
 
 </nav>
+<div id="myModalIni" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+  <div class="modal-dialog" >
+    <div class="modal-content"style="width: 1040px; height: 640px;">
+        <div class="modal-body">
+            <img src="AyudaIni.png" class="img-responsive" style="width: 1000px; height: 600px;">
+        </div>
+    </div>
+  </div>
+</div>
