@@ -105,7 +105,19 @@
                     <span class="nav-link-text">Por favor ingrese para poder usar el sistema.</span>
                 </a>
             </li>
-
+            <li2 class="nav-item" data-toggle="tooltip" data-placement="right" title="Crear">
+                <a class="nav-link">
+                  <p>
+                    <span class="nav-link-text">(?) Pantalla de Inicio: En esta pagina se muestra la pantalla inicial y el ingreso al sistema para estudiante, profesor y administrador.</span>
+                  </p>
+                  <span class="nav-link-text">- Profesor: puede crear, importar y buscar un OA en el repositorio.</span>
+                </br>
+                  <span class="nav-link-text">- Estudiante: puede buscar un OA en el repositorio.</span>
+                </br>
+                <span class="nav-link-text">- Administrador: maneja la información de los usuarios.</span>
+              </br>
+                </a>
+            </li2>
         </ul>
         <?php } ?>
 
