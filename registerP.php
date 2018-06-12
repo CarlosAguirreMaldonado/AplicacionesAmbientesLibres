@@ -19,11 +19,12 @@
 		if($row[0][0]>0){
 			
 			$nameto = $_POST["nombre"] . ' ' . $_POST["apellido"];
-			$correoP = $_POST["correo"];
-			$user = explode("@",$correoP)[0];
+			
+			$user = explode("@",$correoProfInst)[0];
 			$randomNumber = md5(rand()."");
 			$randomPW = substr($randomNumber,0,5);
 			$pwd_hash = password_hash($randomPW, PASSWORD_DEFAULT);
+			sendMailP($correoProfInst, $nameto, $user, $randomPW);
 			$sql = "CALL insertarProfesorDirecto(:cedulaProf, :nombresProf, :apellidosProf, :correoProf, :idDepartamento, :userP, :pwP)";
 			  $stmt = $pdo->prepare($sql);
 			  $stmt->execute(array(
@@ -37,7 +38,7 @@
 			  ));
 			
 			$_SESSION["reg"] = "Registro exitoso, su usuario y contraseña (temporal) serán enviadas a su correo";
-			sendMailP($correoP, $nameto, $user, $randomPW);
+			
 			header( 'Location: index.php' ) ;
 			return;
 		}else{
