@@ -318,7 +318,8 @@
             foreach ($stmt as $comment) {
               echo '<li class="list-group-item">';
               echo '<strong>' . $comment['nombresProf'] . ' ' . $comment['apellidosProf'] . '</strong>&emsp;&emsp;&emsp;&emsp;';
-              echo $comment['detalleComent'];
+			  echo $comment['fecha'];
+              echo $comment['detalleComent']. '</strong>&emsp;&emsp;&emsp;&emsp;';
               echo '</li>';
             }
             $stmt->closeCursor();
