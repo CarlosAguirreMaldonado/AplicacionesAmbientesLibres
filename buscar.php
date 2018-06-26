@@ -325,10 +325,11 @@
             echo '</ul>';
             echo '</div>';
 
-            if ($_SESSION["userType"] == "prof") {
+            if ($_SESSION["userType"] == "prof" || $_SESSION["userType"] == "est") {
               echo '<form method="post" class="top5">';
               echo '<div class="form-group">';
               echo '<textarea name="comment" placeholder="Ingrese un comentario." class="form-control"></textarea>';
+              //echo '<textarea name="comment" placeholder="Ingrese un comentario." class="form-control"></textarea>';
               echo '</div>';
               echo '<div class="form-group">';
               echo '<div class="form-row">';
@@ -342,6 +343,8 @@
             } else {
               echo '<hr>';
             }
+            
+            
 
             echo '<div class="form-group">';
             echo '<div class="form-row">';
