@@ -316,12 +316,20 @@
             $stmt = $pdo->prepare($sql);
             $stmt->execute(array(':idOA' => $id));
             foreach ($stmt as $comment) {
+              if(true){
               echo '<li class="list-group-item">';
               echo '<strong>' . $comment['nombresProf'] . ' ' . $comment['apellidosProf'] . '</strong>&emsp;&emsp;&emsp;&emsp;';
               echo $comment['detalleComent'];
               echo '</li>';
+                  }
+                  else {
+                    echo '<li class="list-group-item">';
+                    echo '<strong>' . $comment['nombresEst'] . ' ' . $comment['apellidosEst'] . '</strong>&emsp;&emsp;&emsp;&emsp;';
+                    echo $comment['detalleComent'];
+                    echo '</li>';
+                  }
             }
-            $sql = "CALL seleccionarComentarioEstudiante(:idOA)";
+            /*$sql = "CALL seleccionarComentarioEstudiante(:idOA)";
             $stmt = $pdo->prepare($sql);
             $stmt->execute(array(':idOA' => $id));
             foreach ($stmt as $comment) {
@@ -329,7 +337,7 @@
               echo '<strong>' . $comment['nombresEst'] . ' ' . $comment['apellidosEst'] . '</strong>&emsp;&emsp;&emsp;&emsp;';
               echo $comment['detalleComent'];
               echo '</li>';
-            }
+            }*/
             $stmt->closeCursor();
             echo '</ul>';
             echo '</div>';
