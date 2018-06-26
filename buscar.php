@@ -178,7 +178,7 @@
         </tr>
         <?php
           $result = $pdo->query("CALL seleccionarComentarioXProfesor()");
-		  
+
           foreach ($result as $row) {
             $id = $row['idOA'];
             $userID = false;
@@ -187,13 +187,13 @@
             }
 
             echo '<tr>';
-			
+
             $sql = "CALL seleccionarRutaoa(:idOA, :idUser, :userName)";
-			
+
             $stmt = $pdo->prepare($sql);
 			$stmt->closeCursor();
             $stmt->execute(array(':idOA' => $id, 'idUser' => $_SESSION["userID"], 'userName' => $_SESSION["userName"]));
-			
+
             $ruta = '';
             if ($stmt->rowCount() > 0)
             {
@@ -328,7 +328,7 @@
             if ($_SESSION["userType"] == "prof") {
               echo '<form method="post" class="top5">';
               echo '<div class="form-group">';
-              echo '<textarea name="comment" placeholder="Ingrese un comentario." class="form-control"></textarea>';
+              echo '<textarea name="comment" placeholder="Ingrese un comentario al foro." class="form-control"></textarea>';
               echo '</div>';
               echo '<div class="form-group">';
               echo '<div class="form-row">';
@@ -443,7 +443,7 @@
         var ajax = new XMLHttpRequest();
         ajax.open("POST", "unzip.php");
         ajax.send(formdata);
-        
+
         javascript:location.href='buscar.php';
       }
     </script>
