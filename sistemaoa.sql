@@ -177,6 +177,7 @@ CREATE TABLE `comentario` (
   `detalleComent` text NOT NULL,
   `idOA` int(11) NOT NULL,
   `idProfesor` int(11) NOT NULL,
+  `idComentarioSup` int(11) NOT NULL,
   PRIMARY KEY (`idComentario`),
   KEY `idOA` (`idOA`),
   KEY `idProfesor` (`idProfesor`)
@@ -198,6 +199,25 @@ BEGIN
 
 	INSERT INTO comentario (detalleComent, idOA, idProfesor)
             VALUES (detalleN, idOAN, idProfesorN);
+
+END$$
+
+DELIMITER ;
+
+-- Insert a comentario
+
+DROP procedure IF EXISTS `insertarRespuesta`;
+
+DELIMITER $$
+CREATE PROCEDURE `insertarRespuesta` (
+	IN detalleN text,
+    IN idOAN int(11),
+    IN idProfesorN int(11),
+    IN idComentarioSupN int(11))
+BEGIN
+
+	INSERT INTO comentario (detalleComent, idOA, idProfesor, idComentarioSup)
+            VALUES (detalleN, idOAN, idProfesorN, idComentarioSupN);
 
 END$$
 
