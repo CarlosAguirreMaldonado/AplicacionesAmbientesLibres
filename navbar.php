@@ -122,7 +122,7 @@
                 </a>
 
             </li2>
-            <button type= "button" class= "btn btn-danger" data-toggle="modal" data-target="#myModalIni" >Ayuda</button>
+            <button type= "button" class= "btn btn-danger" data-toggle="modal" data-target="#myModalIni">Ayuda</button>
         </ul>
         <?php } ?>
 

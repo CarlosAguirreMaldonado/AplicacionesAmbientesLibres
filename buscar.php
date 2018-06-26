@@ -307,7 +307,7 @@
 
             echo '<hr><div class="row bottom10">';
             echo '<div class="col-3">';
-            echo '<b>Comentarios:</b>';
+            echo '<b>Foro:</b>';
             echo '</div>';
             echo '</div>';
             echo '<div class="comments">';
@@ -321,11 +321,20 @@
               echo $comment['detalleComent'];
               echo '</li>';
             }
+            $sql = "CALL seleccionarComentarioEstudiante(:idOA)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(array(':idOA' => $id));
+            foreach ($stmt as $comment) {
+              echo '<li class="list-group-item">';
+              echo '<strong>' . $comment['nombresEst'] . ' ' . $comment['apellidosEst'] . '</strong>&emsp;&emsp;&emsp;&emsp;';
+              echo $comment['detalleComent'];
+              echo '</li>';
+            }
             $stmt->closeCursor();
             echo '</ul>';
             echo '</div>';
 
-            if ($_SESSION["userType"] == "prof") {
+            if ($_SESSION["userType"] == "prof" ||  $_SESSION["userType"] != "admin") {
               echo '<form method="post" class="top5">';
               echo '<div class="form-group">';
               echo '<textarea name="comment" placeholder="Ingrese un comentario al foro." class="form-control"></textarea>';
