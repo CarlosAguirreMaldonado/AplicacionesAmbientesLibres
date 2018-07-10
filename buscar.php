@@ -327,7 +327,7 @@
               echo '<li class="list-group-item">';
               echo '<strong>' . $comment['nombresProf'] . ' ' . $comment['apellidosProf'] . '</strong>&emsp;&emsp;&emsp;&emsp;';
               echo $comment['detalleComent']. '</strong>&emsp;&emsp;&emsp;&emsp;';
-              echo '<div><img src="'.$comment['rutaImagen'].'" style="width: 50%; height: 80%">';
+              echo '<div><img src="'.$comment['rutaImagen'].'" style="width: 20%; height: 50%">';
               echo str_repeat("&nbsp;", 70);
               echo $comment['fecha'];
               echo '</li>';
