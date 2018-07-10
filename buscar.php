@@ -3,13 +3,21 @@
   require_once "delete.php";
   session_start();
 
-  if ( isset($_POST["idOAComment"]) && isset($_POST["comment"]) ) {
-    $sql = "CALL insertarComentario(:detalleComent, :idOA, :idProfesor)";
+  if ( isset($_POST["idOAComment"]) && isset($_POST["comment"]) ){
+  $nombre = $_FILES['imagen']['name'];
+      $nombrer = strtolower($nombre);
+      //$cd=$_FILES['imagen']['tmp_name'];
+      $ruta = "img/" . $_FILES['imagen']['name'];
+      $destino = "img/".$nombrer;
+      $resultado = @move_uploaded_file($_FILES["imagen"]["tmp_name"], $ruta);
+
+    $sql = "CALL insertarComentario(:detalleComent, :idOA, :idProfesor, :rutaArchivo)";
     $stmt = $pdo->prepare($sql);
     $stmt->execute(array(
       ':detalleComent' => $_POST["comment"],
       ':idOA' => $_POST["idOAComment"],
-      ':idProfesor' => $_SESSION["userID"]));
+      ':idProfesor' => $_SESSION["userID"],
+      ':rutaArchivo' => $destino));
     $_SESSION["oa"] = "Comentario agregado correctamente.";
     unset($_POST["idOAComment"]);
     unset($_POST["comment"]);
@@ -319,6 +327,7 @@
               echo '<li class="list-group-item">';
               echo '<strong>' . $comment['nombresProf'] . ' ' . $comment['apellidosProf'] . '</strong>&emsp;&emsp;&emsp;&emsp;';
               echo $comment['detalleComent']. '</strong>&emsp;&emsp;&emsp;&emsp;';
+              echo '<div><img src="'.$comment['rutaImagen'].'" style="width: 50%; height: 80%">';
               echo str_repeat("&nbsp;", 70);
               echo $comment['fecha'];
               echo '</li>';
@@ -328,9 +337,12 @@
             echo '</div>';
 
             if ($_SESSION["userType"] == "prof" || $_SESSION["userType"] == "est") {
-              echo '<form method="post" class="top5">';
+              echo '<form method="post" class="top5" enctype="multipart/form-data">';
               echo '<div class="form-group">';
               echo '<textarea name="comment" placeholder="Ingrese un comentario." class="form-control"></textarea>';
+              echo '<input id="imagen" name="imagen" type="file" maxlength="150">';
+              echo '<br />';
+              echo '<div id="preview"></div>';
               echo '</div>';
               echo '<div class="form-group">';
               echo '<div class="form-row">';
@@ -453,3 +465,11 @@
 </body>
 
 </html>
+<script type="text/javascript" src="/vendor/jquery/jquery.js"></script>
+<script>
+
+    $("#btn").click(function(){
+        var archivos = document.getElementById("file").files;
+        alert(archivos.name);
+    });
+</script>
