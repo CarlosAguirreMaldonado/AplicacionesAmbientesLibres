@@ -58,7 +58,7 @@ CREATE PROCEDURE `selectUsuarioAdministrador` (
 )
 BEGIN
 
-	SELECT * FROM administrador 
+	SELECT * FROM administrador
     WHERE usuarioAdmin = usuario;
 END$$
 
@@ -75,7 +75,7 @@ CREATE PROCEDURE `seleccionarUnAdministrador` (
 BEGIN
 
 	SELECT * FROM administrador WHERE idAdministrador = idAdmin;
-    
+
 END$$
 
 DELIMITER ;
@@ -96,7 +96,7 @@ BEGIN
                 nombreAdmin = nombreAdminN,
                 usuarioAdmin = usuarioAdminN
                 WHERE idAdministrador = idAdminN;
-    
+
 END$$
 
 DELIMITER ;
@@ -112,10 +112,10 @@ CREATE PROCEDURE `cambiarPwAdministrador` (
 )
 BEGIN
 
-	UPDATE administrador 
+	UPDATE administrador
     SET pwAdmin = pwAdminN
     WHERE idAdministrador = idAdminN;
-    
+
 END$$
 
 DELIMITER ;
@@ -158,8 +158,8 @@ DELIMITER $$
 CREATE PROCEDURE `selectCarreraXFacultad` ()
 BEGIN
 
-	SELECT c.idCarrera, c.nombreCarrera, f.nombreFacultad 
-    FROM carrera c JOIN facultad f 
+	SELECT c.idCarrera, c.nombreCarrera, f.nombreFacultad
+    FROM carrera c JOIN facultad f
     ON c.idFacultad = f.idFacultad;
 END$$
 
@@ -297,8 +297,8 @@ DELIMITER $$
 CREATE PROCEDURE `seleccionarDepartamentoXFacultad`()
 BEGIN
 
-	SELECT d.idDepartamento, d.nombreDepartamento, f.nombreFacultad 
-    FROM departamento d JOIN facultad f 
+	SELECT d.idDepartamento, d.nombreDepartamento, f.nombreFacultad
+    FROM departamento d JOIN facultad f
     ON d.idFacultad = f.idFacultad;
 
 END$$
@@ -339,7 +339,7 @@ CREATE PROCEDURE `insertarEstudiante` (
     IN apellidosE varchar(50),
     IN correoE varchar(50),
     IN carreraE int(11),
-    IN usuarioE varchar(25), 
+    IN usuarioE varchar(25),
     IN pwE varchar(225))
 BEGIN
 
@@ -360,9 +360,9 @@ CREATE PROCEDURE `selectUsuarioEstudiante` (
 )
 BEGIN
 
-	SELECT * FROM estudiante 
+	SELECT * FROM estudiante
     WHERE usuarioEst = usuario;
-    
+
 END$$
 
 DELIMITER ;
@@ -378,7 +378,7 @@ CREATE PROCEDURE `seleccionarUnEstudiante` (
 BEGIN
 
 	SELECT * FROM estudiante WHERE idEstudiante = idEN;
-    
+
 END$$
 
 DELIMITER ;
@@ -405,7 +405,7 @@ BEGIN
                 idCarrera = idCarreraN,
                 usuarioEst = usuarioN
                 WHERE idEstudiante = idEN;
-    
+
 END$$
 
 DELIMITER ;
@@ -423,7 +423,7 @@ BEGIN
 
 	UPDATE estudiante SET pwEst = pwEstN
 	WHERE idEstudiante = idEN;
-    
+
 END$$
 
 DELIMITER ;
@@ -527,7 +527,7 @@ BEGIN
 
 	INSERT INTO objetoaprendizaje (nombre, autor, descripcion, fecha, p_clave, institucion, tamano, tipo, ruta_zip, idProfesor)
                 VALUES (nombreOA, autorOA, descripcionOA, fechaOA, p_claveOA, institucionOA, tamanoOA, tipoOA, ruta_zipOA, idProfesorOA);
-                
+
 END$$
 
 DELIMITER ;
@@ -548,15 +548,15 @@ CREATE PROCEDURE `editarUnOA` (
 )
 BEGIN
 
-	UPDATE objetoaprendizaje SET 
-                nombre = nombreOA,   
+	UPDATE objetoaprendizaje SET
+                nombre = nombreOA,
                 autor = autorOA,
                 descripcion = descripcionOA,
                 fecha = fechaOA,
                 p_clave = p_claveOA,
                 institucion = institucionOA
                 WHERE idOA = idOAN;
-    
+
 END$$
 
 DELIMITER ;
@@ -572,8 +572,8 @@ CREATE PROCEDURE `seleccionarUnOA` (
 )
 BEGIN
 
-	SELECT nombre, descripcion, autor, institucion, DATE_FORMAT(fecha,'%Y-%m-%d') as fecha_f, p_clave 
-    FROM objetoaprendizaje WHERE idOA = idOAN;    
+	SELECT nombre, descripcion, autor, institucion, DATE_FORMAT(fecha,'%Y-%m-%d') as fecha_f, p_clave
+    FROM objetoaprendizaje WHERE idOA = idOAN;
 END$$
 
 DELIMITER ;
@@ -602,9 +602,9 @@ CREATE PROCEDURE `seleccionarRutaOAsProfesor` (
 	IN idProfesorOA int(11))
 BEGIN
 
-	SELECT idOA, ruta_zip FROM objetoaprendizaje 
+	SELECT idOA, ruta_zip FROM objetoaprendizaje
     WHERE idProfesor = idProfesorOA;
-                
+
 END$$
 
 DELIMITER ;
@@ -681,7 +681,7 @@ CREATE PROCEDURE `selectUsuarioProfesor` (
 BEGIN
 
 	SELECT * FROM profesor WHERE usuarioProf = usuario;
-    
+
 END$$
 
 DELIMITER ;
@@ -697,7 +697,7 @@ CREATE PROCEDURE `seleccionarUnProfesor` (
 BEGIN
 
 	SELECT * FROM profesor WHERE idProfesor = idProfesorN;
-    
+
 END$$
 
 DELIMITER ;
@@ -724,7 +724,7 @@ BEGIN
                 idDepartamento = idDepartamentoN,
                 usuarioProf = usuarioProfN
                 WHERE idProfesor = idProfesorN;
-    
+
 END$$
 
 DELIMITER ;
@@ -745,7 +745,7 @@ BEGIN
                 usuarioProf = usuarioProfN,
                 pwProf = pwProfN
                 WHERE idProfesor = idProfesorN;
-    
+
 END$$
 
 DELIMITER ;
@@ -761,10 +761,10 @@ CREATE PROCEDURE `cambiarProfesorPw` (
 )
 BEGIN
 
-	UPDATE profesor 
+	UPDATE profesor
     SET pwProf = pwProfN
     WHERE idProfesor = idProfesorN;
-    
+
 END$$
 
 DELIMITER ;
@@ -792,8 +792,8 @@ DELIMITER $$
 CREATE PROCEDURE `seleccionarProfesorXDepartamentoSinUsuario`()
 BEGIN
 
-	SELECT idProfesor, cedulaProf, nombresProf, apellidosProf, correoProf, nombreDepartamento 
-    FROM profesor p JOIN departamento d ON p.idDepartamento = d.idDepartamento 
+	SELECT idProfesor, cedulaProf, nombresProf, apellidosProf, correoProf, nombreDepartamento
+    FROM profesor p JOIN departamento d ON p.idDepartamento = d.idDepartamento
     WHERE usuarioProf = '';
 
 END$$
@@ -808,7 +808,7 @@ DELIMITER $$
 CREATE PROCEDURE `seleccionarProfesorXDepartamentoConUsuario`()
 BEGIN
 
-	SELECT * FROM profesor p JOIN departamento d ON p.idDepartamento = d.idDepartamento 
+	SELECT * FROM profesor p JOIN departamento d ON p.idDepartamento = d.idDepartamento
     WHERE usuarioProf != '';
 
 END$$
@@ -881,7 +881,7 @@ CREATE PROCEDURE `seleccionarRutaoa` (
     IN userNameN varchar(20))
 BEGIN
 
-	SELECT * FROM rutaoa 
+	SELECT * FROM rutaoa
     WHERE idOA = idOAN AND idUser = idUserN AND username = userNameN;
 
 END$$
@@ -920,7 +920,7 @@ CREATE TABLE `sistemaoa`.`nominaprofesores` (
   `extensionTelefonica` VARCHAR(6) NULL,
   `correoInstitucional` VARCHAR(35) NULL,
   PRIMARY KEY (`idNominaProfesores`));
-  
+
   INSERT INTO `nominaprofesores`(`nombreCompleto`, `puestoInstitucional`, `departamento`, `telefonoInstitucional`, `extensionTelefonica`, `correoInstitucional`)  VALUES (  'ABAD MERCHAN GUIDO ANDRES','PROFESOR AGREGADO A TIEMPO COMPLETO (NIVEL 3, GRADO 5)','DEPARTAMENTO DE ESTUDIOSORGANIZACIONALES Y DESARROLLO HUMANO','02-2976300','1804','andres.abad@epn.edu.ec');
 INSERT INTO `nominaprofesores`(`nombreCompleto`, `puestoInstitucional`, `departamento`, `telefonoInstitucional`, `extensionTelefonica`, `correoInstitucional`)  VALUES (  'ABAD TORRES JACKELINE','PROFESOR AGREGADO A TIEMPO COMPLETO (NIVEL 1, GRADO 3)','DEPARTAMENTO DEAUTOMATIZACIÓN Y CONTROL INDUSTRIAL','02-2976300','2203','jackeline.abad@epn.edu.ec');
 INSERT INTO `nominaprofesores`(`nombreCompleto`, `puestoInstitucional`, `departamento`, `telefonoInstitucional`, `extensionTelefonica`, `correoInstitucional`)  VALUES (  'ACERO QUILUMBAQUIN WILSON ARMANDO','ANALISTA DE REDES DE MONITOREO GEOFISICO 1','PROYECTOS EPN','02-2976300','6708','wilson.acero@epn.edu.ec');
@@ -2276,4 +2276,46 @@ CREATE PROCEDURE spVerificarProfesor (in correo VARCHAR(25))
 BEGIN
 
 SELECT count(*) FROM sistemaoa.nominaprofesores where correoinstitucional=correo;
+END$$
+
+-- Tabla para usuarios bloqueados
+CREATE TABLE `sistemaoa`.`usuariosbloqueados` (
+  `idUsuario` INT NOT NULL,
+  `tipoUsuario` VARCHAR(20) NOT NULL,
+  `fechaBloqueo` DATE NULL,
+  `motivoBloqueo` VARCHAR(60) NULL,
+  `fechaFinBloqueo` DATE NULL);
+
+-- PROCEDIMIENTO ALMACENADO PARA REGISTRAR BLOQUEO
+  DROP procedure IF EXISTS `insertarUsuarioBLoqueado`;
+
+  DELIMITER $$
+  CREATE PROCEDURE `insertarUsuarioBLoqueado` (
+  	IN idUsuarioIN INT,
+      IN tipoUsuarioIN varchar(20),
+      IN motivoBloqueoIN varchar(60),
+      IN diasBloqueo INT)
+  BEGIN
+
+  	INSERT INTO usuariosbloqueados (idUsuario, tipoUsuario, fechaBloqueo, motivoBloqueo, fechaFinBloqueo) VALUES (idUsuarioIN, tipoUsuarioIN, now(), motivoBloqueoIN, DATE_ADD(now(), INTERVAL diasBloqueo DAY));
+
+  END$$
+
+  DELIMITER ;
+
+  -- Procedimiento almacenado verificar usuariosBloqueados
+DROP procedure IF EXISTS `spVerificarUsuarioBloqueado`;
+DELIMITER $$
+CREATE PROCEDURE spVerificarUsuarioBloqueado (in idUsuarioIN INT, in tipoUsuarioIN VARCHAR(20))
+BEGIN
+
+SELECT count(*) FROM sistemaoa.usuariosbloqueados where idUsuario=idUsuarioIN and tipoUsuario = tipoUsuarioIN and now()<fechaFinBLoqueo;
+END$$
+
+-- Procedimiento almacenado obtener fecha y motivo de bloqueo usuarioBloqueado
+DELIMITER $$
+CREATE PROCEDURE spObtenerFechaBloqueo(in idUsuarioIN INT, in tipoUsuarioIN VARCHAR(20))
+BEGIN
+
+SELECT motivoBLoqueo,fechaFinBloqueo FROM sistemaoa.usuariosbloqueados where idUsuario=idUsuarioIN and tipoUsuario = tipoUsuarioIN and now()<fechaFinBLoqueo;
 END$$
