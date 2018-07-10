@@ -318,7 +318,7 @@
             foreach ($stmt as $comment) {
               echo '<li class="list-group-item">';
               echo '<strong>' . $comment['nombresProf'] . ' ' . $comment['apellidosProf'] . '</strong>&emsp;&emsp;&emsp;&emsp;';
-			  echo $comment['fecha'];
+			  echo $comment['fecha'].'&emsp;&emsp;';
               echo $comment['detalleComent']. '</strong>&emsp;&emsp;&emsp;&emsp;';
               echo '</li>';
             }
@@ -326,7 +326,7 @@
             echo '</ul>';
             echo '</div>';
 
-            if ($_SESSION["userType"] == "prof") {
+            if ($_SESSION["userType"] == "prof" || $_SESSION["userType"] == "est") {
               echo '<form method="post" class="top5">';
               echo '<div class="form-group">';
               echo '<textarea name="comment" placeholder="Ingrese un comentario." class="form-control"></textarea>';

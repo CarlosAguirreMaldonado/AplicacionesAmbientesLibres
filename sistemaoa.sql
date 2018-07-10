@@ -84,6 +84,7 @@ CREATE TABLE `comentario` (
   `idOA` int(11) NOT NULL,
   `idProfesor` int(11) NOT NULL,  
   `fecha` datetime NOT NULL,
+  `tipoUsuario` varchar(1),
   PRIMARY KEY (`idComentario`),
   KEY `idOA` (`idOA`),
   KEY `idProfesor` (`idProfesor`)
@@ -1710,10 +1711,11 @@ DELIMITER $$
 CREATE PROCEDURE `insertarComentario` (
 	IN detalleN text,
     IN idOAN int(11),
-    IN idProfesorN int(11))
+    IN idProfesorN int(11),
+    IN tipoUsuarioN varchar(1))
 	BEGIN
-	INSERT INTO comentario (detalleComent, idOA, idProfesor, fecha)
-            VALUES (detalleN, idOAN, idProfesorN,now());
+	INSERT INTO comentario (detalleComent, idOA, idProfesor, fecha, tipoUsuario)
+            VALUES (detalleN, idOAN, idProfesorN,now(), tipoUsuarioN);
 
 END$$
 
@@ -1734,7 +1736,7 @@ END$$
 DELIMITER ;
 
 
--- Insert a seleccionar Comentario De Un Profesor
+-- Select a seleccionar Comentario De Un Profesor
 
 DROP procedure IF EXISTS `seleccionarComentarioDeUnProfesor`;
 
@@ -1744,10 +1746,22 @@ CREATE PROCEDURE `seleccionarComentarioDeUnProfesor` (
 )
 BEGIN
 
-	SELECT detalleComent, fecha, nombresProf, apellidosProf
-	FROM comentario c JOIN profesor p
-	ON p.idProfesor = c.idProfesor
-    WHERE idOA = idOAN;
+	SELECT detalleComent, fecha, nombresProf, apellidosProf FROM comentario c JOIN profesor p ON p.idProfesor = c.idProfesor WHERE tipoUsuario='p' AND idOA = idOAN;
+    
+END$$
+
+DELIMITER ;
+
+-- Select a seleccionar Comentario De Un Profesor
+
+DROP procedure IF EXISTS `seleccionarComentarioDeUnUsuario`;
+
+DELIMITER $$
+CREATE PROCEDURE `seleccionarComentarioDeUnUsuario` (
+	IN idOAN int(11)
+)
+BEGIN
+	SELECT detalleComent, fecha, nombresProf, apellidosProf	FROM comentario c JOIN profesor p ON p.idProfesor = c.idProfesor WHERE idOA = idOAN;
 END$$
 
 DELIMITER ;
