@@ -8,6 +8,7 @@
     $idType = ' ';
     $nameType = ' ';
     $apellidoType = ' ';
+    $userType = ' ';
     if ($_POST["userType"] == 'admin') {
       $sql = 'CALL selectUsuarioAdministrador(:usuario)';
       $pwType = 'pwAdmin';
@@ -18,12 +19,14 @@
       $idType = 'idProfesor';
       $nameType = 'nombresProf';
       $apellidoType = 'apellidosProf';
+      $userType = 'profesor';
     } else {
       $sql = 'CALL selectUsuarioEstudiante(:usuario)';
       $pwType = 'pwEst';
       $idType = 'idEstudiante';
       $nameType = 'nombresEst';
       $apellidoType = 'apellidosEst';
+      $userType = 'estudiante';
     }
     $stmt = $pdo->prepare($sql);
     $stmt->execute(array(':usuario' => $_POST["inputUser"]));
@@ -31,16 +34,27 @@
       $result = $stmt->fetch(PDO::FETCH_ASSOC);
       $stmt->closeCursor();
       $passwd = $result[$pwType];
+
+      $sqlBLoqueo = "CALL spVerificarUsuarioBloqueado('$result[$idType]','$userType')";
+  		$row1 = $pdo->query($sqlBLoqueo)->fetchAll();
+
+      $sqlFechayMotivo = "CALL spObtenerFechaBloqueo('$result[$idType]','$userType')";
+  		$row2 = $pdo->query($sqlFechayMotivo)->fetchAll();
+
       if (password_verify($_POST["inputPW"], $passwd)) {
-        $_SESSION["user"] = $_POST["inputUser"];
-        $_SESSION["userType"] = $_POST["userType"];
-        $_SESSION["userID"] = $result[$idType];
-        if ($_POST["userType"] != 'admin') {
-          $_SESSION["userName"] = $result[$nameType] . ' ' . $result[$apellidoType];
+        if($row1[0][0]>0){
+            $_SESSION['error'] = 'Su cuenta se encuentra temporalmente bloqueada. <br><strong>Motivo:</strong> '.$row2[0][0].'. <br><strong>Fecha fin de bloqueo:</strong> '.$row2[0][1];
+        }else{
+          $_SESSION["user"] = $_POST["inputUser"];
+          $_SESSION["userType"] = $_POST["userType"];
+          $_SESSION["userID"] = $result[$idType];
+          if ($_POST["userType"] != 'admin') {
+            $_SESSION["userName"] = $result[$nameType] . ' ' . $result[$apellidoType];
+          }
+          $_SESSION["success"] = "Logged in.";
+          header( 'Location: index.php' ) ;
+          return;
         }
-        $_SESSION["success"] = "Logged in.";
-        header( 'Location: index.php' ) ;
-        return;
       } else {
         $_SESSION['error'] = 'Contraseña no coincide con el usuario ingresado.';
       }
