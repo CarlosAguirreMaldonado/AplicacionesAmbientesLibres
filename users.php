@@ -50,6 +50,26 @@
         header( 'Location: users.php' ) ;
         return;
     }
+    if ( isset($_POST["idEstBloq"]) ) {
+        $sql = "CALL insertarUsuarioBLoqueado(:idEstudiante,'estudiante','Palabras mal sonantes',7)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(array(':idEstudiante' => $_POST["idEstBloq"]));
+        $stmt->closeCursor();
+        $_SESSION["delProf"] = "Estudiante bloqueado del sistema correctamente.";
+        unset($_POST["idEstBloq"]);
+        header( 'Location: users.php' ) ;
+        return;
+    }
+    if ( isset($_POST["idProfBloq"]) ) {
+        $sql = "CALL insertarUsuarioBLoqueado(:idProfesor,'profesor','Palabras mal sonantes',7)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(array(':idEstudiante' => $_POST["idProfBloq"]));
+        $stmt->closeCursor();
+        $_SESSION["delProf"] = "Profesor bloqueado del sistema correctamente.";
+        unset($_POST["idProfBloq"]);
+        header( 'Location: users.php' ) ;
+        return;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -251,6 +271,16 @@
                         echo '</div>';
                         echo '</div>';
                         echo '</form>';
+                        echo '<form method="post">';
+                        echo '<div class="form-group top5">';
+                        echo '<div class="form-row">';
+                        echo '<div class="col-4 offset-8">';
+                        echo '<input type="hidden" name="idProfBloq" value="' . $id . '">';
+                        echo '<input class="btn btn-danger btn-block" type="submit" value="Bloquear">';
+                        echo '</div>';
+                        echo '</div>';
+                        echo '</div>';
+                        echo '</form>';
                         echo '</div>';
                         echo '</div>';
                         echo '</div>';
@@ -328,6 +358,16 @@
                         echo '<div class="col-4 offset-8">';
                         echo '<input type="hidden" name="idEstDel" value="' . $id . '">';
                         echo '<input class="btn btn-danger btn-block" type="submit" value="Borrar">';
+                        echo '</div>';
+                        echo '</div>';
+                        echo '</div>';
+                        echo '</form>';
+                        echo '<form method="post">';
+                        echo '<div class="form-group top5">';
+                        echo '<div class="form-row">';
+                        echo '<div class="col-4 offset-8">';
+                        echo '<input type="hidden" name="idEstBloq" value="' . $id . '">';
+                        echo '<input class="btn btn-danger btn-block" type="submit" value="Bloquear">';
                         echo '</div>';
                         echo '</div>';
                         echo '</div>';
