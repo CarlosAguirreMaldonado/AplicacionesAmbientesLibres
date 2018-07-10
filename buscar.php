@@ -1,39 +1,47 @@
 <?php
-require_once "pdo.php";
-require_once "delete.php";
-session_start();
+  require_once "pdo.php";
+  require_once "delete.php";
+  session_start();
 
-if ( isset($_POST["idOAComment"]) && isset($_POST["comment"]) ) {
-    $sql = "CALL insertarComentario(:detalleComent, :idOA, :idProfesor)";
+  if ( isset($_POST["idOAComment"]) && isset($_POST["comment"]) ){
+  $nombre = $_FILES['imagen']['name'];
+      $nombrer = strtolower($nombre);
+      //$cd=$_FILES['imagen']['tmp_name'];
+      $ruta = "img/" . $_FILES['imagen']['name'];
+      $destino = "img/".$nombrer;
+      $resultado = @move_uploaded_file($_FILES["imagen"]["tmp_name"], $ruta);
+
+    $sql = "CALL insertarComentario(:detalleComent, :idOA, :idProfesor, :rutaArchivo)";
     $stmt = $pdo->prepare($sql);
     $stmt->execute(array(
-        ':detalleComent' => $_POST["comment"],
-        ':idOA' => $_POST["idOAComment"],
-        ':idProfesor' => $_SESSION["userID"]));
+      ':detalleComent' => $_POST["comment"],
+      ':idOA' => $_POST["idOAComment"],
+      ':idProfesor' => $_SESSION["userID"],
+      ':rutaArchivo' => $destino));
     $_SESSION["oa"] = "Comentario agregado correctamente.";
     unset($_POST["idOAComment"]);
     unset($_POST["comment"]);
     header( 'Location: buscar.php' );
     return;
-}
+  }
 
-if ( isset($_POST["idOADelete"]) && isset($_POST["idOARuta"]) ) {
-    deleteOA($_POST["idOARuta"], $_POST["idOADelete"], $_POST["idOAComment"]);
-    $_SESSION["oa"] = "Objeto de Aprendizaje eliminado del sistema correctamente.";
-    unset($_POST["idOADelete"]);
-    unset($_POST["idOARuta"]);
-    header( 'Location: buscar.php' );
-    return;
-}
-
-if ( isset($_POST["idOA"]) && isset($_POST["idOAComment"]) ) {
-    deleteComentario($_POST["idOA"], $_POST["idOAComment"]);
-    $_SESSION["oa"] = "Comentario eliminado del sistema correctamente.";
-    unset($_POST["idOA"]);
-    unset($_POST["idOAComment"]);
-    header( 'Location: buscar.php' );
-    return;
-}
+  if ( isset($_POST["idOADelete"]) && isset($_POST["idOARuta"]) ) {
+  	deleteOA($_POST["idOARuta"], $_POST["idOADelete"], $_POST["idOAComment"]);
+  	$_SESSION["oa"] = "Objeto de Aprendizaje eliminado del sistema correctamente.";
+  	unset($_POST["idOADelete"]);
+  	unset($_POST["idOARuta"]);
+  	header( 'Location: buscar.php' );
+  	return;
+  }
+  
+  if ( isset($_POST["idOA"]) && isset($_POST["idOAComment"]) ) {
+  	deleteComentario($_POST["idOA"], $_POST["idOAComment"]);
+  	$_SESSION["oa"] = "Comentario eliminado del sistema correctamente.";
+  	unset($_POST["idOA"]);
+  	unset($_POST["idOAComment"]);
+  	header( 'Location: buscar.php' );
+  	return;
+  }
 ?>
 
 <!DOCTYPE html>
@@ -169,7 +177,7 @@ if ( isset($_POST["idOA"]) && isset($_POST["idOAComment"]) ) {
   <?php
       if ( isset($_SESSION["oa"]) ) {
         echo('<div class="alert alert-success alert-dismissable">');
-        echo('<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>');
+        echo('<a href="#" class="close" data-dismiss="alert" aria-label="close">Ã—</a>');
         echo($_SESSION["oa"]);
         echo('</div>');
         unset($_SESSION["oa"]);
@@ -181,7 +189,7 @@ if ( isset($_POST["idOA"]) && isset($_POST["idOAComment"]) ) {
         <tr class="header">
           <th style="width:30%;">Nombre</th>
           <th style="width:25%;">Autor</th>
-          <th style="width:15%;">Año</th>
+          <th style="width:15%;">AÃ±o</th>
           <th style="width:25%;">Palabras Clave</th>
           <th style="width:5%;"></th>
         </tr>
@@ -201,7 +209,7 @@ if ( isset($_POST["idOA"]) && isset($_POST["idOAComment"]) ) {
 
             $stmt = $pdo->prepare($sql);
 			$stmt->closeCursor();
-            $stmt->execute(array(':idOA' => $id, 'idUser' => $_SESSION["userID"], ':userName' => $_SESSION["userName"]));
+            $stmt->execute(array(':idOA' => $id, 'idUser' => $_SESSION["userID"], 'userName' => $_SESSION["userName"]));
 
             $ruta = '';
             if ($stmt->rowCount() > 0)
@@ -282,7 +290,7 @@ if ( isset($_POST["idOA"]) && isset($_POST["idOAComment"]) ) {
             echo '</div>';
             echo '<div class="row top5">';
             echo '<div class="col-3 text-right padding5">';
-            echo '<b>Tamaño:</b>';
+            echo '<b>TamaÃ±o:</b>';
             echo '</div>';
             echo '<div class="col text-justify padding15">';
             echo $row['tamano'];
@@ -328,36 +336,38 @@ if ( isset($_POST["idOA"]) && isset($_POST["idOAComment"]) ) {
               echo '<li class="list-group-item">';
               echo '<strong>' . $comment['nombresProf'] . ' ' . $comment['apellidosProf'] . '</strong>&emsp;&emsp;&emsp;&emsp;';
               echo $comment['detalleComent']. '</strong>&emsp;&emsp;&emsp;&emsp;';
-              echo str_repeat("&nbsp;", 100);
+              echo '<div><img src="'.$comment['rutaImagen'].'" style="width: 20%; height: 50%">';
+              echo str_repeat("&nbsp;", 70);
               echo $comment['fecha'];
               echo '</li>';
               
               if ($_SESSION["userID"]==$comment['idUsuario'] || $_SESSION["userType"] == "admin" ){
-                  
-                  echo '<div class="col-3">';
-                  echo '<form method="post">';
-                  echo '<input type="hidden" name="idOA" value="' . $comment['idOA'] . '">';
-                  echo '<input type="hidden" name="idOAComment" value="' . $comment['id'] . '">';
-                  echo '<input class="btn btn-danger btn-block" type="submit" value="Borrar">';
-                  echo '</form>';
-                  echo '</div>';
-                  
-                  /*echo '<div class="col-3">';
-                  echo '<button type="button" class="btn btn-danger btn-block" onclick="deleteComentario($_POST["idOADelete"], $_POST["idOAComment"])" >Borrar</button>';
-                  echo '</div>';*/
-                  
+              	
+              	echo '<div class="col-3">';
+              	echo '<form method="post">';
+              	echo '<input type="hidden" name="idOA" value="' . $comment['idOA'] . '">';
+              	echo '<input type="hidden" name="idOAComment" value="' . $comment['id'] . '">';
+              	echo '<input class="btn btn-danger btn-block" type="submit" value="Borrar">';
+              	echo '</form>';
+              	echo '</div>';
+              	
+              	/*echo '<div class="col-3">';
+              	 echo '<button type="button" class="btn btn-danger btn-block" onclick="deleteComentario($_POST["idOADelete"], $_POST["idOAComment"])" >Borrar</button>';
+              	 echo '</div>';*/
+              	
               }
-              
-              
             }
             $stmt->closeCursor();
             echo '</ul>';
             echo '</div>';
 
             if ($_SESSION["userType"] == "prof" || $_SESSION["userType"] == "est") {
-              echo '<form method="post" class="top5">';
+              echo '<form method="post" class="top5" enctype="multipart/form-data">';
               echo '<div class="form-group">';
               echo '<textarea name="comment" placeholder="Ingrese un comentario." class="form-control"></textarea>';
+              echo '<input id="imagen" name="imagen" type="file" maxlength="150">';
+              echo '<br />';
+              echo '<div id="preview"></div>';
               echo '</div>';
               echo '<div class="form-group">';
               echo '<div class="form-row">';
@@ -475,10 +485,16 @@ if ( isset($_POST["idOA"]) && isset($_POST["idOAComment"]) ) {
 
         javascript:location.href='buscar.php';
       }
-
-      
     </script>
   </div>
 </body>
 
 </html>
+<script type="text/javascript" src="/vendor/jquery/jquery.js"></script>
+<script>
+
+    $("#btn").click(function(){
+        var archivos = document.getElementById("file").files;
+        alert(archivos.name);
+    });
+</script>
