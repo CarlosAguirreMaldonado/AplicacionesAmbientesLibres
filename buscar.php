@@ -4,12 +4,21 @@
   session_start();
 
   if ( isset($_POST["idOAComment"]) && isset($_POST["comment"]) ) {
-    $sql = "CALL insertarComentario(:detalleComent, :idOA, :idProfesor)";
+      /*$ref = '';
+      if($_SESSION["userType"] == "prof" ){
+          $ref = 'p';
+      }else{
+          $ref = 'e';
+      }*/
+    //$sql = "CALL insertarComentario(:detalleComent, :idOA, :idUsuario, :tipoUsuario)";
+    $sql = "CALL insertarComentario(:detalleComent, :idOA, :idUsuario)";
     $stmt = $pdo->prepare($sql);
     $stmt->execute(array(
       ':detalleComent' => $_POST["comment"],
       ':idOA' => $_POST["idOAComment"],
-      ':idProfesor' => $_SESSION["userID"]));
+      ':idUsuario' => $_SESSION["userID"]//,
+      //':tipoUsuario' => $ref
+    ));
     $_SESSION["oa"] = "Comentario agregado correctamente.";
     unset($_POST["idOAComment"]);
     unset($_POST["comment"]);
