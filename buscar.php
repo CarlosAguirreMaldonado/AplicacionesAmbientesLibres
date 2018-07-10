@@ -1,30 +1,39 @@
 <?php
-  require_once "pdo.php";
-  require_once "delete.php";
-  session_start();
+require_once "pdo.php";
+require_once "delete.php";
+session_start();
 
-  if ( isset($_POST["idOAComment"]) && isset($_POST["comment"]) ) {
+if ( isset($_POST["idOAComment"]) && isset($_POST["comment"]) ) {
     $sql = "CALL insertarComentario(:detalleComent, :idOA, :idProfesor)";
     $stmt = $pdo->prepare($sql);
     $stmt->execute(array(
-      ':detalleComent' => $_POST["comment"],
-      ':idOA' => $_POST["idOAComment"],
-      ':idProfesor' => $_SESSION["userID"]));
+        ':detalleComent' => $_POST["comment"],
+        ':idOA' => $_POST["idOAComment"],
+        ':idProfesor' => $_SESSION["userID"]));
     $_SESSION["oa"] = "Comentario agregado correctamente.";
     unset($_POST["idOAComment"]);
     unset($_POST["comment"]);
     header( 'Location: buscar.php' );
     return;
-  }
+}
 
-  if ( isset($_POST["idOADelete"]) && isset($_POST["idOARuta"]) ) {
-    deleteOA($_POST["idOARuta"], $_POST["idOADelete"]);
+if ( isset($_POST["idOADelete"]) && isset($_POST["idOARuta"]) ) {
+    deleteOA($_POST["idOARuta"], $_POST["idOADelete"], $_POST["idOAComment"]);
     $_SESSION["oa"] = "Objeto de Aprendizaje eliminado del sistema correctamente.";
     unset($_POST["idOADelete"]);
     unset($_POST["idOARuta"]);
     header( 'Location: buscar.php' );
     return;
-  }
+}
+
+if ( isset($_POST["idOA"]) && isset($_POST["idOAComment"]) ) {
+    deleteComentario($_POST["idOA"], $_POST["idOAComment"]);
+    $_SESSION["oa"] = "Comentario eliminado del sistema correctamente.";
+    unset($_POST["idOA"]);
+    unset($_POST["idOAComment"]);
+    header( 'Location: buscar.php' );
+    return;
+}
 ?>
 
 <!DOCTYPE html>
@@ -160,7 +169,7 @@
   <?php
       if ( isset($_SESSION["oa"]) ) {
         echo('<div class="alert alert-success alert-dismissable">');
-        echo('<a href="#" class="close" data-dismiss="alert" aria-label="close">Ã—</a>');
+        echo('<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>');
         echo($_SESSION["oa"]);
         echo('</div>');
         unset($_SESSION["oa"]);
@@ -172,13 +181,13 @@
         <tr class="header">
           <th style="width:30%;">Nombre</th>
           <th style="width:25%;">Autor</th>
-          <th style="width:15%;">AÃ±o</th>
+          <th style="width:15%;">Año</th>
           <th style="width:25%;">Palabras Clave</th>
           <th style="width:5%;"></th>
         </tr>
         <?php
           $result = $pdo->query("CALL seleccionarComentarioXProfesor()");
-		  
+
           foreach ($result as $row) {
             $id = $row['idOA'];
             $userID = false;
@@ -187,13 +196,13 @@
             }
 
             echo '<tr>';
-			
+
             $sql = "CALL seleccionarRutaoa(:idOA, :idUser, :userName)";
-			
+
             $stmt = $pdo->prepare($sql);
 			$stmt->closeCursor();
-            $stmt->execute(array(':idOA' => $id, 'idUser' => $_SESSION["userID"], 'userName' => $_SESSION["userName"]));
-			
+            $stmt->execute(array(':idOA' => $id, 'idUser' => $_SESSION["userID"], ':userName' => $_SESSION["userName"]));
+
             $ruta = '';
             if ($stmt->rowCount() > 0)
             {
@@ -273,7 +282,7 @@
             echo '</div>';
             echo '<div class="row top5">';
             echo '<div class="col-3 text-right padding5">';
-            echo '<b>TamaÃ±o:</b>';
+            echo '<b>Tamaño:</b>';
             echo '</div>';
             echo '<div class="col text-justify padding15">';
             echo $row['tamano'];
@@ -307,7 +316,7 @@
 
             echo '<hr><div class="row bottom10">';
             echo '<div class="col-3">';
-            echo '<b>Comentarios:</b>';
+            echo '<b>Foro:</b>';
             echo '</div>';
             echo '</div>';
             echo '<div class="comments">';
@@ -318,15 +327,34 @@
             foreach ($stmt as $comment) {
               echo '<li class="list-group-item">';
               echo '<strong>' . $comment['nombresProf'] . ' ' . $comment['apellidosProf'] . '</strong>&emsp;&emsp;&emsp;&emsp;';
-			  echo $comment['fecha'];
               echo $comment['detalleComent']. '</strong>&emsp;&emsp;&emsp;&emsp;';
+              echo str_repeat("&nbsp;", 100);
+              echo $comment['fecha'];
               echo '</li>';
+              
+              if ($_SESSION["userID"]==$comment['idUsuario'] || $_SESSION["userType"] == "admin" ){
+                  
+                  echo '<div class="col-3">';
+                  echo '<form method="post">';
+                  echo '<input type="hidden" name="idOA" value="' . $comment['idOA'] . '">';
+                  echo '<input type="hidden" name="idOAComment" value="' . $comment['id'] . '">';
+                  echo '<input class="btn btn-danger btn-block" type="submit" value="Borrar">';
+                  echo '</form>';
+                  echo '</div>';
+                  
+                  /*echo '<div class="col-3">';
+                  echo '<button type="button" class="btn btn-danger btn-block" onclick="deleteComentario($_POST["idOADelete"], $_POST["idOAComment"])" >Borrar</button>';
+                  echo '</div>';*/
+                  
+              }
+              
+              
             }
             $stmt->closeCursor();
             echo '</ul>';
             echo '</div>';
 
-            if ($_SESSION["userType"] == "prof") {
+            if ($_SESSION["userType"] == "prof" || $_SESSION["userType"] == "est") {
               echo '<form method="post" class="top5">';
               echo '<div class="form-group">';
               echo '<textarea name="comment" placeholder="Ingrese un comentario." class="form-control"></textarea>';
@@ -444,9 +472,11 @@
         var ajax = new XMLHttpRequest();
         ajax.open("POST", "unzip.php");
         ajax.send(formdata);
-        
+
         javascript:location.href='buscar.php';
       }
+
+      
     </script>
   </div>
 </body>

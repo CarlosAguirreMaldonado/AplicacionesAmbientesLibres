@@ -177,7 +177,6 @@ CREATE TABLE `comentario` (
   `detalleComent` text NOT NULL,
   `idOA` int(11) NOT NULL,
   `idProfesor` int(11) NOT NULL,
-  `fecha` datetime NOT NULL,
   PRIMARY KEY (`idComentario`),
   KEY `idOA` (`idOA`),
   KEY `idProfesor` (`idProfesor`)
@@ -195,9 +194,10 @@ CREATE PROCEDURE `insertarComentario` (
 	IN detalleN text,
     IN idOAN int(11),
     IN idProfesorN int(11))
-	BEGIN
-	INSERT INTO comentario (detalleComent, idOA, idProfesor, fecha)
-            VALUES (detalleN, idOAN, idProfesorN,now());
+BEGIN
+
+	INSERT INTO comentario (detalleComent, idOA, idProfesor)
+            VALUES (detalleN, idOAN, idProfesorN);
 
 END$$
 
@@ -228,10 +228,18 @@ CREATE PROCEDURE `seleccionarComentarioDeUnProfesor` (
 )
 BEGIN
 
-	SELECT detalleComent, fecha, nombresProf, apellidosProf
+	(SELECT detalleComent, fecha, nombresProf, apellidosProf, c.idProfesor as idUsuario, idComentario as id, idOA
 	FROM comentario c JOIN profesor p
-	ON p.idProfesor = c.idProfesor
-    WHERE idOA = idOAN;
+		ON p.idProfesor = c.idProfesor
+    WHERE idOA = idOAN)
+    
+    union
+    
+    (SELECT detalleComent, fecha, nombresEst, apellidosEst, c.idProfesor as idUsuario, idComentario as id, idOA
+	FROM comentario c JOIN estudiante p
+	ON p.idEstudiante = c.idProfesor
+    WHERE idOA = idOAN)
+    order by fecha;
 END$$
 
 DELIMITER ;
@@ -242,11 +250,12 @@ DROP procedure IF EXISTS `eliminarComentario`;
 
 DELIMITER $$
 CREATE PROCEDURE `eliminarComentario` (
-	IN idOAN int(11)
+	IN idOAN int(11),
+    IN idComentarioN int(11)
 )
 BEGIN
 
-	DELETE FROM comentario WHERE idOA = idOAN;
+	DELETE FROM comentario WHERE idOA = idOAN and idComentario=idComentarioN;
 
 END$$
 
