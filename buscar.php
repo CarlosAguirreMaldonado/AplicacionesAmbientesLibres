@@ -307,7 +307,7 @@
 
             echo '<hr><div class="row bottom10">';
             echo '<div class="col-3">';
-            echo '<b>Comentarios:</b>';
+            echo '<b>Foro:</b>';
             echo '</div>';
             echo '</div>';
             echo '<div class="comments">';
@@ -318,8 +318,9 @@
             foreach ($stmt as $comment) {
               echo '<li class="list-group-item">';
               echo '<strong>' . $comment['nombresProf'] . ' ' . $comment['apellidosProf'] . '</strong>&emsp;&emsp;&emsp;&emsp;';
-			        echo $comment['fecha'];
               echo $comment['detalleComent']. '</strong>&emsp;&emsp;&emsp;&emsp;';
+              echo str_repeat("&nbsp;", 70);
+              echo $comment['fecha'];
               echo '</li>';
             }
             $stmt->closeCursor();
