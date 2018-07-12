@@ -63,7 +63,7 @@
     if ( isset($_POST["idProfBloq"]) ) {
         $sql = "CALL insertarUsuarioBLoqueado(:idProfesor,'profesor','Palabras mal sonantes',7)";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute(array(':idEstudiante' => $_POST["idProfBloq"]));
+        $stmt->execute(array(':idProfesor' => $_POST["idProfBloq"]));
         $stmt->closeCursor();
         $_SESSION["delProf"] = "Profesor bloqueado del sistema correctamente.";
         unset($_POST["idProfBloq"]);

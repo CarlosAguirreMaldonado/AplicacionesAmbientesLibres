@@ -6,7 +6,6 @@
   if ( isset($_POST["idOAComment"]) && isset($_POST["comment"]) ){
   $nombre = $_FILES['imagen']['name'];
       $nombrer = strtolower($nombre);
-      //$cd=$_FILES['imagen']['tmp_name'];
       $ruta = "img/" . $_FILES['imagen']['name'];
       $destino = "img/".$nombrer;
       $resultado = @move_uploaded_file($_FILES["imagen"]["tmp_name"], $ruta);
@@ -350,10 +349,7 @@
               	echo '<input class="btn btn-danger btn-block" type="submit" value="Borrar">';
               	echo '</form>';
               	echo '</div>';
-              	
-              	/*echo '<div class="col-3">';
-              	 echo '<button type="button" class="btn btn-danger btn-block" onclick="deleteComentario($_POST["idOADelete"], $_POST["idOAComment"])" >Borrar</button>';
-              	 echo '</div>';*/
+              	          	
               	
               }
             }
