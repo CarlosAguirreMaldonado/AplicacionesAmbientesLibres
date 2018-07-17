@@ -410,10 +410,18 @@
               echo '<button type="button" class="btn btn-primary btn-block disabled" >Previsualizar</button>';
             }
             echo '</div>';
+            /*echo '<div class="col">';
+            //echo '<form method="post">';
+            echo '<input type="hidden" name="idOADelete" value="' . $id . '">';
+            echo '<input type="hidden" name="idOARuta" value="' . $row['ruta_zip'] . '">';
+            echo '<a class="btn btn-danger btn-block" type="submit" >Descargas</a>';
+            //echo '</form>';
+            echo '</div>';*/
+            
             echo '<div class="col-3">';
             echo '<a class="btn btn-primary btn-block" href="zip/' . $row['ruta_zip'] . '" download>Descargar</a>';
-            echo '</div>';
             
+            echo '</div>';
             if ($userID) {
               echo '<div class="col-3">';
               echo '<button type="button" class="btn btn-primary btn-block" onclick="javascript:location.href=' . "'editaroa.php?id=" . $id . "'" . '">Editar</button>';
@@ -500,6 +508,7 @@
 
         javascript:location.href='buscar.php';
       }
+      
     </script>
   </div>
 </body>
