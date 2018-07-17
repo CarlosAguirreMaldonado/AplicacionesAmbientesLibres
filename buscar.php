@@ -41,6 +41,16 @@
   	header( 'Location: buscar.php' );
   	return;
   }
+  
+ /* if ( isset($_POST["idOA"])) {
+      $sql = "CALL spInsertDescarga (:idOA)";
+      $stmt = $pdo->prepare($sql);
+      $_SESSION["oa"] = "Comentario eliminado del sistema correctamente.";
+      unset($_POST["idOA"]);
+      unset($_POST["idOAComment"]);
+      header( 'Location: buscar.php' );
+      return;
+  }*/
 ?>
 
 <!DOCTYPE html>
@@ -193,7 +203,7 @@
           <th style="width:5%;"></th>
         </tr>
         <?php
-          $result = $pdo->query("CALL seleccionarComentarioXProfesor()");
+          $result = $pdo->query("CALL seleccionarOAXProfesor()");
 
           foreach ($result as $row) {
             $id = $row['idOA'];
@@ -319,6 +329,16 @@
             echo $row['nombresProf'] . ' ' . $row['apellidosProf'];
             echo '</div>';
             echo '</div>';
+            //%%%%%%%%%%%%%%%%%%%%%%%estadística Decarga%%%%%%%%%%%%%%%%%%%%%%%%%%
+            echo '<div class="row top5 bottom5">';
+            echo '<div class="col-3 text-right padding5">';
+            echo '<b>Descargas:</b>';
+            echo '</div>';
+            echo '<div class="col text-justify padding15">';
+            echo $row['estDescargas'];
+            echo '</div>';
+            echo '</div>';
+            
             echo '</div>';
 
             echo '<hr><div class="row bottom10">';
@@ -394,6 +414,16 @@
             echo '</div>';
             echo '<div class="col-3">';
             echo '<a class="btn btn-primary btn-block" href="zip/' . $row['ruta_zip'] . '" download>Descargar</a>';
+           /////////////////////////////////////////////////////////////////////////////////// 
+            /*echo '<div class="col-3">';
+            echo '<form method="post">';
+            echo '<input type="hidden" name="idOA" value="' . $id . '">';
+            echo '<input class="btn btn-primary btn-block" href="zip/' . $row['ruta_zip'] . '" download>Descargar</a>';
+            echo '</form>';
+            echo '</div>';*/
+            
+            
+            
             echo '</div>';
             if ($userID) {
               echo '<div class="col-3">';
