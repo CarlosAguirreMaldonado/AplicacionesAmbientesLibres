@@ -42,15 +42,13 @@
   	return;
   }
   
- /* if ( isset($_POST["idOA"])) {
+ if ( isset($_POST["idOA"])) {
       $sql = "CALL spInsertDescarga (:idOA)";
       $stmt = $pdo->prepare($sql);
-      $_SESSION["oa"] = "Comentario eliminado del sistema correctamente.";
       unset($_POST["idOA"]);
-      unset($_POST["idOAComment"]);
       header( 'Location: buscar.php' );
       return;
-  }*/
+  }
 ?>
 
 <!DOCTYPE html>
@@ -414,17 +412,8 @@
             echo '</div>';
             echo '<div class="col-3">';
             echo '<a class="btn btn-primary btn-block" href="zip/' . $row['ruta_zip'] . '" download>Descargar</a>';
-           /////////////////////////////////////////////////////////////////////////////////// 
-            /*echo '<div class="col-3">';
-            echo '<form method="post">';
-            echo '<input type="hidden" name="idOA" value="' . $id . '">';
-            echo '<input class="btn btn-primary btn-block" href="zip/' . $row['ruta_zip'] . '" download>Descargar</a>';
-            echo '</form>';
-            echo '</div>';*/
-            
-            
-            
             echo '</div>';
+            
             if ($userID) {
               echo '<div class="col-3">';
               echo '<button type="button" class="btn btn-primary btn-block" onclick="javascript:location.href=' . "'editaroa.php?id=" . $id . "'" . '">Editar</button>';
