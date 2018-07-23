@@ -32,7 +32,7 @@
   	header( 'Location: buscar.php' );
   	return;
   }
-  
+
   if ( isset($_POST["idOA"]) && isset($_POST["idOAComment"]) ) {
   	deleteComentario($_POST["idOA"], $_POST["idOAComment"]);
   	$_SESSION["oa"] = "Comentario eliminado del sistema correctamente.";
@@ -339,9 +339,9 @@
               echo str_repeat("&nbsp;", 70);
               echo $comment['fecha'];
               echo '</li>';
-              
+
               if ($_SESSION["userID"]==$comment['idUsuario'] || $_SESSION["userType"] == "admin" ){
-              	
+
               	echo '<div class="col-3">';
               	echo '<form method="post">';
               	echo '<input type="hidden" name="idOA" value="' . $comment['idOA'] . '">';
@@ -349,8 +349,8 @@
               	echo '<input class="btn btn-danger btn-block" type="submit" value="Borrar">';
               	echo '</form>';
               	echo '</div>';
-              	          	
-              	
+
+
               }
             }
             $stmt->closeCursor();

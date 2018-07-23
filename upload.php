@@ -1,6 +1,7 @@
 <?php
    ## method to file upload in db
     require_once "pdo.php";
+    require_once "mail.php";
     session_start();
     $fileName = $_FILES["file1"]["name"]; // The file name
     $fileTmpLoc = $_FILES["file1"]["tmp_name"]; // File in the PHP tmp folder
@@ -32,7 +33,12 @@
             ':idProfesor' => $_SESSION['userID'],
             ':idDepartamento' => $_POST["departamento"]));
 			$stmt->closeCursor();
-
+      $result = $pdo->query("CALL seleccionarProfesoresPorDepartamento(".$_POST["departamento"].")");
+      foreach ($result as $row) {
+        $correoProf=$row['correoProf'];
+        $nameto=$row['nombresProf'].' '.$row['apellidosProf'];
+         sendMailOA($correoProf, $nameto, $_POST["descripcion"],$_POST["nombreOA"]);
+      }
     } else {
         echo "move_uploaded_file function failed";
     }

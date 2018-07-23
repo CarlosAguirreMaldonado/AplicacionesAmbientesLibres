@@ -29,7 +29,7 @@ function sendMailP($mailto, $nameto, $usuario, $pw) {
         //Recipients
         $mail->setFrom('mailer.sistema.oa@gmail.com', 'Sistema OA');
         $mail->addAddress($mailto, $nameto);     // Add a recipient
-	
+
         //Content
         $mail->isHTML(true);                                  // Set email format to HTML
         $mail->Subject = 'Registro Profesor Sistema OA';
@@ -39,7 +39,47 @@ function sendMailP($mailto, $nameto, $usuario, $pw) {
                         Su cuenta ha sido activada por el administrado del sistema.';
 
         $mail->send();
-        
+
+    } catch (Exception $e) {
+        // console.log( 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo);
+		echo '<script language="javascript">';
+		echo 'alert("Message could not be sent. Mailer Error")';
+		echo '</script>';
+    }
+}
+
+function sendMailOA($mailto, $nameto, $descripcionOA, $nombreOA) {
+    $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+    try {
+        //Server settings
+        $mail->SMTPDebug = 2;                                 // Enable verbose debug output
+        $mail->isSMTP();                                      // Set mailer to use SMTP
+        $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+        $mail->SMTPAuth = true;                               // Enable SMTP authentication
+        $mail->Username = 'mailer.sistema.oa@gmail.com';                 // SMTP username
+        $mail->Password = 'sistemaoa2017';                           // SMTP password
+        $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+        $mail->Port = 587;                                    // TCP port to connect to
+		$mail->SMTPOptions = array(
+			'ssl' => array(
+				'verify_peer' => false,
+				'verify_peer_name' => false,
+				'allow_self_signed' => true
+			)
+		);
+        //Recipients
+        $mail->setFrom('mailer.sistema.oa@gmail.com', 'Sistema OA');
+        $mail->addAddress($mailto, $nameto);     // Add a recipient
+
+        //Content
+        $mail->isHTML(true);                                  // Set email format to HTML
+        $mail->Subject = 'Nuevo OA registrado: '.$nombreOA.'.';
+        $mail->Body    = 'Estimado <strong>' . $nameto . '</strong><br></br>
+                        Se ha registrado un nuevo Objeto de Aprendizaje que podría interesarle<ul></ul>
+                        <strong>Nombre:</strong> '.$nombreOA.' <strong>Descripción:</strong> '.$descripcionOA.'.';
+
+        $mail->send();
+
     } catch (Exception $e) {
         // console.log( 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo);
 		echo '<script language="javascript">';
@@ -70,7 +110,7 @@ function sendMailA($mailto, $nameto) {
         //Recipients
         $mail->setFrom('mailer.sistema.oa@gmail.com', 'Sistema OA');
         $mail->addAddress('mailer.sistema.oa@gmail.com', 'Sistema OA');     // Add a recipient
-	
+
         //Content
         $mail->isHTML(true);                                  // Set email format to HTML
         $mail->Subject = 'Nuevo Registro de Profesor Sistema OA';

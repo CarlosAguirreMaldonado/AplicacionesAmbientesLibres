@@ -2324,3 +2324,11 @@ BEGIN
 
 SELECT motivoBLoqueo,fechaFinBloqueo FROM sistemaoa.usuariosbloqueados where idUsuario=idUsuarioIN and tipoUsuario = tipoUsuarioIN and now()<fechaFinBLoqueo;
 END$$
+
+-- Procedimiento para seleccionar los profesores que se encuentren en el mismo departamento
+DROP procedure IF EXISTS `seleccionarProfesoresPorDepartamento`;
+DELIMITER $$
+create procedure `seleccionarProfesoresPorDepartamento` (IN departamentoIN INT)
+BEGIN
+SELECT nombresProf,apellidosProf, correoProf FROM sistemaoa.profesor WHERE profesor.idDepartamento=departamentoIN;
+END$$
