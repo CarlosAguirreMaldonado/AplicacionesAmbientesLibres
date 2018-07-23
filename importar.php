@@ -1,4 +1,5 @@
 <?php
+require_once "pdo.php";
     session_start();
 ?>
 
@@ -15,8 +16,8 @@
             padding-bottom: 20px;
         }
 
-        .bottom5 { 
-            margin-bottom:20px; 
+        .bottom5 {
+            margin-bottom:20px;
         }
     </style>
 </head>
@@ -43,6 +44,10 @@
                                     <input type="text" class="form-control" id="nombreOA" placeholder="Nombre" required>
                                 </div>
                                 <div class="form-group">
+                                    <label for="file1">Adjuntar un archivo</label>
+                                    <input type="file" class="form-control" name="file1" id="file1" accept=".zip">
+                                </div>
+                                <div class="form-group">
                                     <label for="descripcion">Descripcion</label>
                                     <textarea rows="3" class="form-control" id="descripcion" placeholder="Descripcion" required></textarea>
                                 </div>
@@ -63,8 +68,26 @@
                                     <input type="text" class="form-control" id="palabraClaveOA" placeholder="Palabras clave OA" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="file1">Adjuntar un archivo</label>
-                                    <input type="file" class="form-control" name="file1" id="file1" accept=".zip">
+                                  <label for="departamento">Categoria</label>
+                                  <select class="form-control" id="departamento" name="departamento">
+                                  <?php
+                                    $result = $pdo->query("SELECT d.idDepartamento, d.nombreDepartamento, f.nombreFacultad FROM departamento d JOIN facultad f ON d.idFacultad = f.idFacultad");
+                                    $facultad = ' ';
+                                    foreach ($result as $row) {
+                                      $departamento = $row['nombreDepartamento'];
+                                      $idDepartamento = $row['idDepartamento'];
+                                      if ($row['nombreFacultad'] != $facultad) {
+                                        $facultad = $row['nombreFacultad'];
+                                        if ($idDepartamento > 1) {
+                                          echo('</optgroup>');
+                                        }
+                                        echo('<optgroup label="' . $facultad . '">');
+                                      }
+                                      echo('<option value="' . $idDepartamento . '">' . $departamento . '</option>');
+                                    }
+                                    echo('</optgroup>');
+                                  ?>
+                                  </select>
                                 </div>
                                 <div class="form-group">
                                     <div class="form-row">
@@ -106,7 +129,7 @@
                 } else {
 
                     var file = _("file1").files[0];
-                    alert(file.name+" | "+file.size+" | "+file.type);
+                    //alert(file.name+" | "+file.size+" | "+file.type);
                     var formdata = new FormData();
                     formdata.append("file1", file);
                     formdata.append("nombreOA", _("nombreOA").value);
@@ -115,7 +138,7 @@
                     formdata.append("institucionOA", _("institucionOA").value);
                     formdata.append("palabraClaveOA", _("palabraClaveOA").value);
                     formdata.append("fechaCreacionOA", _("fechaCreacionOA").value);
-                    
+                    formdata.append("departamento", _("departamento").value);
                     var ajax = new XMLHttpRequest();
                     ajax.upload.addEventListener("progress", progressHandler, false);
                     ajax.open("POST", "upload.php");
@@ -143,7 +166,7 @@
                             if (filename == "contentv3.xml") {
                                 temp = false;
                                 zip.files[filename].async('string').then(function (fileData) {
-                                    console.log(fileData) // These are your file contents      
+                                    console.log(fileData) // These are your file contents
                                     parser = new DOMParser();
                                     xmlDoc = parser.parseFromString(fileData, "text/xml");
                                     dublincore = xmlDoc.children[0].children[0];

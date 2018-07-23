@@ -232,9 +232,9 @@ BEGIN
 	FROM comentario c JOIN profesor p
 		ON p.idProfesor = c.idProfesor
     WHERE idOA = idOAN)
-    
+
     union
-    
+
     (SELECT detalleComent, fecha, nombresEst, apellidosEst, c.idProfesor as idUsuario, idComentario as id, idOA
 	FROM comentario c JOIN estudiante p
 	ON p.idEstudiante = c.idProfesor
@@ -501,7 +501,8 @@ CREATE TABLE `objetoaprendizaje` (
   `tipo` varchar(10) NOT NULL,
   `fecha_ing` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ruta_zip` varchar(200) NOT NULL,
-  `idProfesor` int(11) NOT NULL
+  `idProfesor` int(11) NOT NULL,
+  `idDepartamento` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 --
@@ -522,11 +523,12 @@ CREATE PROCEDURE `insertarOA` (
     IN tamanoOA varchar(100),
     IN tipoOA varchar(10),
     IN ruta_zipOA varchar(200),
-    IN idProfesorOA int(11))
+    IN idProfesorOA int(11),
+    IN idDepartamentoOA int(11))
 BEGIN
 
-	INSERT INTO objetoaprendizaje (nombre, autor, descripcion, fecha, p_clave, institucion, tamano, tipo, ruta_zip, idProfesor)
-                VALUES (nombreOA, autorOA, descripcionOA, fechaOA, p_claveOA, institucionOA, tamanoOA, tipoOA, ruta_zipOA, idProfesorOA);
+	INSERT INTO objetoaprendizaje (nombre, autor, descripcion, fecha, p_clave, institucion, tamano, tipo, ruta_zip, idProfesor, idDepartamento)
+                VALUES (nombreOA, autorOA, descripcionOA, fechaOA, p_claveOA, institucionOA, tamanoOA, tipoOA, ruta_zipOA, idProfesorOA, idDepartamentoOA);
 
 END$$
 
@@ -2278,13 +2280,16 @@ BEGIN
 SELECT count(*) FROM sistemaoa.nominaprofesores where correoinstitucional=correo;
 END$$
 
+DROP TABLE IF EXISTS `usuariosbloqueados`;
 -- Tabla para usuarios bloqueados
-CREATE TABLE `sistemaoa`.`usuariosbloqueados` (
+DELIMITER $$
+CREATE TABLE `usuariosbloqueados` (
   `idUsuario` INT NOT NULL,
   `tipoUsuario` VARCHAR(20) NOT NULL,
   `fechaBloqueo` DATE NULL,
   `motivoBloqueo` VARCHAR(60) NULL,
   `fechaFinBloqueo` DATE NULL);
+$$
 
 -- PROCEDIMIENTO ALMACENADO PARA REGISTRAR BLOQUEO
   DROP procedure IF EXISTS `insertarUsuarioBLoqueado`;

@@ -2,7 +2,6 @@
    ## method to file upload in db
     require_once "pdo.php";
     session_start();
-
     $fileName = $_FILES["file1"]["name"]; // The file name
     $fileTmpLoc = $_FILES["file1"]["tmp_name"]; // File in the PHP tmp folder
     $fileType = $_FILES["file1"]["type"]; // The type of file it is
@@ -16,7 +15,7 @@
 
     if(move_uploaded_file($fileTmpLoc, "zip/$fileName")){
         echo "$fileName upload is complete";
-        $sql = "CALL insertarOA (:nombre, :autor, :descripcion, :fecha, :p_clave, :institucion, :fileSize, :tipo, :ruta_zip, :idProfesor)";
+        $sql = "CALL insertarOA (:nombre, :autor, :descripcion, :fecha, :p_clave, :institucion, :fileSize, :tipo, :ruta_zip, :idProfesor, :idDepartamento)";
         $stmt = $pdo->prepare($sql);
         $size = $fileSize . ' bytes';
         $tipo = 'WinRAR ZIP';
@@ -30,8 +29,10 @@
             ':fileSize' => $size,
             ':tipo' => $tipo,
             ':ruta_zip' => $fileName,
-            ':idProfesor' => $_SESSION['userID']));
+            ':idProfesor' => $_SESSION['userID'],
+            ':idDepartamento' => $_POST["departamento"]));
 			$stmt->closeCursor();
+
     } else {
         echo "move_uploaded_file function failed";
     }
