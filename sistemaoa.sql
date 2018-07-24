@@ -2277,7 +2277,7 @@ BEGIN
 
 SELECT count(*) FROM sistemaoa.nominaprofesores where correoinstitucional=correo;
 END$$
-
+DELIMITER $$
 -- Tabla para usuarios bloqueados
 CREATE TABLE `sistemaoa`.`usuariosbloqueados` (
   `idUsuario` INT NOT NULL,
@@ -2285,7 +2285,7 @@ CREATE TABLE `sistemaoa`.`usuariosbloqueados` (
   `fechaBloqueo` DATE NULL,
   `motivoBloqueo` VARCHAR(60) NULL,
   `fechaFinBloqueo` DATE NULL);
-
+$$
 -- PROCEDIMIENTO ALMACENADO PARA REGISTRAR BLOQUEO
   DROP procedure IF EXISTS `insertarUsuarioBLoqueado`;
 
