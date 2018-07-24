@@ -193,7 +193,7 @@
           <th style="width:5%;"></th>
         </tr>
         <?php
-          $result = $pdo->query("CALL seleccionarComentarioXProfesor()");
+          $result = $pdo->query("CALL seleccionarOAXProfesor()");
 
           foreach ($result as $row) {
             $id = $row['idOA'];

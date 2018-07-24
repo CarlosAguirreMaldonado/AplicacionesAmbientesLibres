@@ -67,6 +67,22 @@
                                     <input type="file" class="form-control" name="file1" id="file1" accept=".zip">
                                 </div>
                                 <div class="form-group">
+           							 <label for="materia">Materia</label>
+            							<select class="form-control" id="materia" name="materia">
+                                            <?php
+                                            /*$result = $pdo->query("CALL seleccionarMateriasXCarrera");
+                                            $carrera = ' ';
+                                              foreach ($result as $row) {
+                                                $materia = $row['nombreMateria'];
+                                                $idMateria = $row['idMateria'];
+                                                echo('<option value="' . $idMateria . '">' . $materia . '</option>');
+                                              }
+                                              echo('</optgroup>');
+                                            $result->closeCursor();*/
+                                              ?>
+                                    </select>	
+                                </div>
+                                <div class="form-group">
                                     <div class="form-row">
                                         <div class="col-4 offset-4">
                                             <button type="button" class="btn btn-danger btn-block" onclick="javascript:location.href='index.php'">Cancelar</button>
