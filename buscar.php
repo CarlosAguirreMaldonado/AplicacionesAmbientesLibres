@@ -478,6 +478,13 @@
 
         javascript:location.href='buscar.php';
       }
+      function realizaDes(id){
+        var form=new FormData();
+        formdata.append("id",id);
+        var ajax=new XMLHttpRequest();
+        ajax.open("POST","descarga.php");
+        ajax.send(form);
+      }
 
     </script>
   </div>
@@ -496,14 +503,16 @@ $("#Ndescar").click(function(){
   $.ajax({
       url: 'descarga.php',
       type: 'post',
-      data:{  },
+      data:{id:1},
       success: function(output)
       {
           alert('success, server says '+output);
+          window.location.href="buscar.php";
       }, error: function()
       {
           alert('something went wrong, rating failed');
       }
    });
 });
+
 </script>
