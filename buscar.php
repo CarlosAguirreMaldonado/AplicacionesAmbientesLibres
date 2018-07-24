@@ -1,3 +1,5 @@
+
+
 <?php
   require_once "pdo.php";
   require_once "delete.php";
@@ -311,6 +313,22 @@
             echo $row['nombresProf'] . ' ' . $row['apellidosProf'];
             echo '</div>';
             echo '</div>';
+            echo '<div class="row top5">';
+            echo '<div class="col-3 text-right padding5">';
+            echo '<b>Número de descargas:</b>';
+            echo '</div>';
+            echo '<div class="col text-justify padding15">';
+            echo $row['Ndescargas'];
+            echo '</div>';
+            echo '</div>';
+            echo '<div class="row top5">';
+            echo '<div class="col-3 text-right padding5">';
+            echo '<b>Calificación:</b>';
+            echo '</div>';
+            echo '<div class="col text-justify padding15">';
+            //echo $row['Ndescargas'];
+            echo '</div>';
+            echo '</div>';
             echo '</div>';
 
             echo '<hr><div class="row bottom10">';
@@ -372,7 +390,7 @@
             }
             echo '</div>';
             echo '<div class="col-3">';
-            echo '<a class="btn btn-primary btn-block" href="zip/' . $row['ruta_zip'] . '" download>Descargar</a>';
+            echo '<a id="Ndescar" class="btn btn-primary btn-block" href="zip/' . $row['ruta_zip'] . '" download>Descargar</a>';
             echo '</div>';
             if ($userID) {
               echo '<div class="col-3">';
@@ -460,10 +478,10 @@
 
         javascript:location.href='buscar.php';
       }
+
     </script>
   </div>
 </body>
-
 </html>
 <script type="text/javascript" src="/vendor/jquery/jquery.js"></script>
 <script>
@@ -472,4 +490,20 @@
         var archivos = document.getElementById("file").files;
         alert(archivos.name);
     });
+</script>
+<script>
+$("#Ndescar").click(function(){
+  $.ajax({
+      url: 'descarga.php',
+      type: 'post',
+      data:{  },
+      success: function(output)
+      {
+          alert('success, server says '+output);
+      }, error: function()
+      {
+          alert('something went wrong, rating failed');
+      }
+   });
+});
 </script>
